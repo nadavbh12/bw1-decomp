@@ -116,24 +116,6 @@ void GestureSystem::fn_0057A9C0(LHRegion* rect, long start, long end)
 	}
 }
 
-int LHDraw::Box(long left, long top, long right, long bottom, LHColor color)
-{
-	if (LHSys::GetScreen().depth == 16)
-	{
-		return Box16(left, top, right, bottom, LHPixel16(color));
-	}
-	return Box24(left, top, right, bottom, color);
-}
-
-int LHDraw::Box(long left, long top, long right, long bottom, LHColor color, unsigned long style)
-{
-	if (LHSys::GetScreen().depth == 16)
-	{
-		return Box16(left, top, right, bottom, LHPixel16(color), style);
-	}
-	return Box24(left, top, right, bottom, color, style);
-}
-
 void GestureSystem::fn_0057B0E0(LHRegion* rect, GestureSystemData* data)
 {
 	LHSys::GetDraw().Box(rect->start.x, rect->start.y, rect->end.x, rect->end.y, LHColor(0xff, 0xf4, 0xff));

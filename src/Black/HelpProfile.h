@@ -10,17 +10,32 @@
 struct CameraHelpAccumulator
 {
 	uint32_t TotalTriggerCount;
-	uint32_t field_0x4;
-	uint8_t  TriggerTimeHead;
-	uint8_t  TriggerTimeCount;
-	uint8_t  TriggeredThisFrame;
+	float    AverageTriggers;
+	int8_t   TriggerTimeHead;
+	int8_t   TriggerTimeCount;
+	int8_t   TriggeredThisFrame;
 	uint8_t  field_0xb;
 	uint32_t TriggerTimes[0x40];
 
+	// BW1W120 inlined BW1M119 011a6b50
+	CameraHelpAccumulator() { Reset(); }
+
 	// Non-virtual methods
 
+	// BW1W120 00448c40
+	void Draw(char* name, int x, int y);
+	// BW1W120 00448f10
+	int GetDrawHeight();
 	// BW1W120 00448f20 BW1M119 011a5e10
 	void Reset();
+	// BW1W120 00448f40 BW1M119 01094fb0
+	float GetTimeSinceLastUsed();
+	// BW1W120 00448f90
+	void fn_00448F90();
+	// BW1W120 00448fc0 BW1M119 011a5c10
+	float GetRate();
+	// BW1W120 00449040 BW1M119 0108b860
+	void Trigger();
 	// BW1W120 inlined BW1M119 01322a20
 	long GetTotal() { return TotalTriggerCount; }
 };

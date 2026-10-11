@@ -153,6 +153,10 @@ struct LH3DRender
 	static bool32_t g_b_support_TNL;
 	// BW1W120 00c386e4 BW1M119 011d0dfc (LHCombined Release)
 	static bool32_t g_b_disable_TNL;
+	// BW1W120 00c391b0
+	static D3DTLVERTEX g_quad_vertices[4];
+	// BW1W120 00c39230
+	static uint16_t g_quad_indices[6];
 
 	// BW1W120 0082f810 BW1M119 0102b030 (LHCombined Release)
 	static void __fastcall DrawTriangle(Vertex3D* vertices, unsigned long vertex_count, uint16_t* indices,

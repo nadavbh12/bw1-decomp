@@ -280,6 +280,28 @@ inline LHPixel16::LHPixel16(LHColor color)
 	        ((uint8_t)(color.r >> LHSys::TheSystem.screen.redScale) << LHSys::TheSystem.screen.RedShift);
 }
 
+inline int LHDraw::Box(long left, long top, long right, long bottom, LHColor color)
+{
+	if (LHSys::GetScreen().depth == 16)
+	{
+		LHPixel16 pixel;
+		pixel.Set(color);
+		return Box16(left, top, right, bottom, pixel);
+	}
+	return Box24(left, top, right, bottom, color);
+}
+
+inline int LHDraw::Box(long left, long top, long right, long bottom, LHColor color, unsigned long style)
+{
+	if (LHSys::GetScreen().depth == 16)
+	{
+		LHPixel16 pixel;
+		pixel.Set(color);
+		return Box16(left, top, right, bottom, pixel, style);
+	}
+	return Box24(left, top, right, bottom, color, style);
+}
+
 inline int LHDraw::Line(long x0, long y0, long x1, long y1, LHColor color, unsigned long mode)
 {
 	if (LHSys::GetScreen().depth == 16)

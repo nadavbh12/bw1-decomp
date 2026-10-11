@@ -55,4 +55,7 @@ struct ControlMap
 
 static_assert(sizeof(ControlMap) == 0x6534, "ControlMap size is incorrect");
 
+// BW1W120 0046ee60 BW1M119 011d4790
+void GetKeyNameText_(long lparam, wchar_t* buffer, int size);
+
 #endif /* BW1_DECOMP_CONTROL_MAP_INCLUDED_H */
