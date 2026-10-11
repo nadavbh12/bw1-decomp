@@ -1,4 +1,6 @@
 #include "HandStateCamera.h"
+#include "CreatureAttitudeConstants.h"
+#include "GameTimeConstants.h"
 
 #include <Lionhead/LH3DLib/development/LH3DAnim.h> /* For struct CAnim */
 #include <Lionhead/LH3DLib/development/LH3DTech.h> /* For LH3DTech */
