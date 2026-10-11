@@ -559,7 +559,7 @@ bool32_t SaveCreatureSnapshot()
 	fwrite(&visualTime, 1, sizeof(visualTime), file);
 	fwrite(&skyType, 1, sizeof(skyType), file);
 	fwrite(&alignment, 1, sizeof(alignment), file);
-	fwrite(&GGame::g_game->GetCamera()->field_0x8c, 1, sizeof(GGame::g_game->GetCamera()->field_0x8c), file);
+	fwrite(&GGame::g_game->GetCamera()->Weather, 1, sizeof(GGame::g_game->GetCamera()->Weather), file);
 
 	char* mapName = "mpm_2p_1";
 	if (GGame::g_game->IsMultiplayerGame())
