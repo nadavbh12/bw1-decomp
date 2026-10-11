@@ -7,6 +7,11 @@
 #include "Base.h"       /* For struct Base */
 #include "HelpSystem.h" /* For enum HELP_EVENT_TYPE */
 
+enum
+{
+	CAMERA_HELP_TRIGGER_TIME_COUNT = 0x40,
+};
+
 struct CameraHelpAccumulator
 {
 	uint32_t TotalTriggerCount;
@@ -15,7 +20,7 @@ struct CameraHelpAccumulator
 	int8_t   TriggerTimeCount;
 	int8_t   TriggeredThisFrame;
 	uint8_t  field_0xb;
-	uint32_t TriggerTimes[0x40];
+	uint32_t TriggerTimes[CAMERA_HELP_TRIGGER_TIME_COUNT];
 
 	// BW1W120 inlined BW1M119 011a6b50
 	CameraHelpAccumulator() { Reset(); }

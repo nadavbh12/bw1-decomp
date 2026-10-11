@@ -32,6 +32,19 @@
 
 #define FILEPATH "C:\\dev\\MP\\Black\\camerahelp.cpp"
 
+enum
+{
+	CAMERA_HELP_REASON_GROUP_COUNT = 4,
+	CAMERA_HELP_REASON_NAME_COUNT = 8,
+	KEY_CLIP_Y_START = -0xa000,
+	KEY_CLIP_Y_END = 0xa000,
+	KEY_TEXT_LENGTH = 0x80,
+	KEY_NAME_LENGTH = 0x20,
+	ACCUMULATOR_TEXT_LENGTH = 0x80,
+	CONTROLS_TEXT_LENGTH = 0x400,
+	MARKER_NAME_LENGTH = 0x100,
+};
+
 static CameraHelpAccumulator ErrorStats[CAMERA_HELP_ERROR_COUNT];
 static CameraHelpAccumulator CollideStats[CAMERA_HELP_COLLIDE_COUNT];
 static CameraHelpAccumulator ControlStats[CAMERA_HELP_CONTROL_COUNT];
@@ -42,7 +55,7 @@ int   CameraHelp::EnabledFeatures = CAMERA_FEATURE_PITCH | CAMERA_FEATURE_ROTATE
                                     CAMERA_FEATURE_MOVE | CAMERA_FEATURE_DOUBLE_CLICK | CAMERA_FEATURE_ZOOM_LANDSCAPE |
                                     CAMERA_FEATURE_HELP | CAMERA_FEATURE_EDGE_SCROLL;
 
-static char* ReasonNames[4][8] = {
+static char* ReasonNames[CAMERA_HELP_REASON_GROUP_COUNT][CAMERA_HELP_REASON_NAME_COUNT] = {
 	{"", "", "", "", "", "", "", ""},
 	{"Error: Double clicked in excluded area", "Error: Double clicked in included area", "Error: Hand is too far away"},
 	{"Collide with ground", "Collide with excluded area", "Collide with edge of allowed area", "Collide with ceiling"},
@@ -207,7 +220,9 @@ void CameraHelp::DrawMouse(CH_CLICKTYPE click_type, CH_MOUSETYPE mouse_type, CH_
 	LH3DRender::Inline_0082EF67(MouseMaterial);
 	LH3DRender::SetRenderState(D3DRENDERSTATE_ZFUNC, D3DCMP_ALWAYS);
 	LH3DRender::SetRenderState(D3DRENDERSTATE_ZWRITEENABLE, FALSE);
-	DrawAndClip2D(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, LH3DRender::g_quad_vertices, 4, LH3DRender::g_quad_indices, 6);
+	DrawAndClip2D(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, LH3DRender::g_quad_vertices,
+	              ARRAY_SIZE(LH3DRender::g_quad_vertices), LH3DRender::g_quad_indices,
+	              ARRAY_SIZE(LH3DRender::g_quad_indices));
 	LH3DRender::SetRenderState(D3DRENDERSTATE_ZFUNC, D3DCMP_LESSEQUAL);
 	LH3DRender::SetRenderState(D3DRENDERSTATE_ZWRITEENABLE, TRUE);
 }
@@ -254,14 +269,14 @@ void CameraHelp::DrawKey(wchar_t* text, float scale, int left, int top, int righ
 	int middleLeft = left + edge;
 	int middleRight = right - edge;
 	SetupThing::DrawBox(left, top, middleLeft, bottom, 0.501953125f, 0.001953125f, 0.564453125f, 0.248046875f,
-	                    LH3DAtmos::AtmosMaterial, &LH3DColor(0xff, 0xff, 0xff, alpha), 0, -0xa000, 0xa000, false,
-	                    100.0f);
+	                    LH3DAtmos::AtmosMaterial, &LH3DColor(0xff, 0xff, 0xff, alpha), 0, KEY_CLIP_Y_START,
+	                    KEY_CLIP_Y_END, false, 100.0f);
 	SetupThing::DrawBox(middleLeft, top, middleRight, bottom, 0.564453125f, 0.001953125f, 0.685546875f, 0.248046875f,
-	                    LH3DAtmos::AtmosMaterial, &LH3DColor(0xff, 0xff, 0xff, alpha), 0, -0xa000, 0xa000, false,
-	                    100.0f);
+	                    LH3DAtmos::AtmosMaterial, &LH3DColor(0xff, 0xff, 0xff, alpha), 0, KEY_CLIP_Y_START,
+	                    KEY_CLIP_Y_END, false, 100.0f);
 	SetupThing::DrawBox(middleRight, top, right, bottom, 0.685546875f, 0.001953125f, 0.748046875f, 0.248046875f,
-	                    LH3DAtmos::AtmosMaterial, &LH3DColor(0xff, 0xff, 0xff, alpha), 0, -0xa000, 0xa000, false,
-	                    100.0f);
+	                    LH3DAtmos::AtmosMaterial, &LH3DColor(0xff, 0xff, 0xff, alpha), 0, KEY_CLIP_Y_START,
+	                    KEY_CLIP_Y_END, false, 100.0f);
 	if (text != NULL)
 	{
 		GatheringText* font = GatheringText::gamefont;
@@ -284,25 +299,32 @@ void CameraHelp::DrawGlow(int left, int top, int right, int bottom, unsigned lon
 	int outerBottom = bottom + edge;
 	SetupThing::DrawAlpha = colour >> 24;
 	SetupThing::DrawBox(outerLeft, outerTop, innerLeft, innerTop, 0.0f, 0.25f, 0.078125f, 0.328125f,
-	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false, 100.0f);
+	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false,
+	                    100.0f);
 	SetupThing::DrawBox(innerLeft, outerTop, innerRight, innerTop, 0.078125f, 0.25f, 0.16796875f, 0.328125f,
-	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false, 100.0f);
+	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false,
+	                    100.0f);
 	SetupThing::DrawBox(innerRight, outerTop, outerRight, innerTop, 0.16796875f, 0.25f, 0.24609375f, 0.328125f,
-	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false, 100.0f);
+	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false,
+	                    100.0f);
 	SetupThing::DrawBox(outerLeft, innerTop, innerLeft, innerBottom, 0.0f, 0.328125f, 0.078125f, 0.41796875f,
-	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false, 100.0f);
+	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false,
+	                    100.0f);
 	SetupThing::DrawBox(innerLeft, innerTop, innerRight, innerBottom, 0.078125f, 0.328125f, 0.16796875f, 0.41796875f,
-	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false, 100.0f);
+	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false,
+	                    100.0f);
 	SetupThing::DrawBox(innerRight, innerTop, outerRight, innerBottom, 0.16796875f, 0.328125f, 0.24609375f, 0.41796875f,
-	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false, 100.0f);
+	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false,
+	                    100.0f);
 	SetupThing::DrawBox(outerLeft, innerBottom, innerLeft, outerBottom, 0.0f, 0.41796875f, 0.078125f, 0.49609375f,
-	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false, 100.0f);
+	                    LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false,
+	                    100.0f);
 	SetupThing::DrawBox(innerLeft, innerBottom, innerRight, outerBottom, 0.078125f, 0.41796875f, 0.16796875f,
-	                    0.49609375f, LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false,
-	                    100.0f);
+	                    0.49609375f, LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START,
+	                    KEY_CLIP_Y_END, false, 100.0f);
 	SetupThing::DrawBox(innerRight, innerBottom, outerRight, outerBottom, 0.16796875f, 0.41796875f, 0.24609375f,
-	                    0.49609375f, LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, -0xa000, 0xa000, false,
-	                    100.0f);
+	                    0.49609375f, LH3DAtmos::AdditiveMaterial, &LH3DColor(colour), 0, KEY_CLIP_Y_START,
+	                    KEY_CLIP_Y_END, false, 100.0f);
 }
 
 void CameraHelp::DrawKeyOrMouse(CH_ANIMTYPE anim_type, int key, int mouse_type, wchar_t* text, int x, int y, int size,
@@ -366,7 +388,7 @@ void CameraHelp::DrawKeyOrMouse(CH_ANIMTYPE anim_type, int key, int mouse_type, 
 	{
 		return;
 	}
-	wchar_t keyText[0x80];
+	wchar_t keyText[KEY_TEXT_LENGTH];
 	float   keyWidth;
 	if (anim_type == CH_ANIMTYPE_KEY)
 	{
@@ -376,8 +398,8 @@ void CameraHelp::DrawKeyOrMouse(CH_ANIMTYPE anim_type, int key, int mouse_type, 
 		}
 		else
 		{
-			wchar_t keyName[0x20];
-			wchar_t modifierName[0x20];
+			wchar_t keyName[KEY_NAME_LENGTH];
+			wchar_t modifierName[KEY_NAME_LENGTH];
 			memset(keyName, 0, sizeof(keyName));
 			memset(modifierName, 0, sizeof(modifierName));
 			GetKeyNameText_((((key & 0x80) | 0x100) << 1 | (key & 0x7f)) << 16, keyName, 0x10);
@@ -520,25 +542,25 @@ void CameraHelp::DrawKeyOrMouse(CH_ANIMTYPE anim_type, int key, int mouse_type, 
 	{
 		SetupThing::DrawBox((keyX - size / 2) + inset, (y + size / 4) + inset, keyX - inset, (y + size * 3 / 4) - inset,
 		                    0.75390625f, 0.12890625f, 0.87109375f, 0.24609375f, LH3DAtmos::AtmosMaterial, bottom, 0,
-		                    -0xa000, 0xa000, false, 100.0f);
+		                    KEY_CLIP_Y_START, KEY_CLIP_Y_END, false, 100.0f);
 	}
 	if (arrowRight)
 	{
 		SetupThing::DrawBox(keyX + inset + baseKeyWidth, (y + size / 4) + inset, keyX - inset + size / 2 + baseKeyWidth,
 		                    (y + size * 3 / 4) - inset, 0.87890625f, 0.00390625f, 0.99609375f, 0.12109375f,
-		                    LH3DAtmos::AtmosMaterial, bottom, 0, -0xa000, 0xa000, false, 100.0f);
+		                    LH3DAtmos::AtmosMaterial, bottom, 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false, 100.0f);
 	}
 	if (align & KEYALIGN_ARROW_UP)
 	{
 		SetupThing::DrawBox((keyX + size / 4) + inset, (y - size / 2) + inset, keyX - inset + size * 3 / 4, y - inset,
 		                    0.75390625f, 0.00390625f, 0.87109375f, 0.12109375f, LH3DAtmos::AtmosMaterial, bottom, 0,
-		                    -0xa000, 0xa000, false, 100.0f);
+		                    KEY_CLIP_Y_START, KEY_CLIP_Y_END, false, 100.0f);
 	}
 	if (align & KEYALIGN_ARROW_DOWN)
 	{
 		SetupThing::DrawBox((keyX + size / 4) + inset, (y + size) + inset, keyX - inset + size * 3 / 4,
 		                    (size / 2 + y + size) - inset, 0.87890625f, 0.12890625f, 0.99609375f, 0.24609375f,
-		                    LH3DAtmos::AtmosMaterial, bottom, 0, -0xa000, 0xa000, false, 100.0f);
+		                    LH3DAtmos::AtmosMaterial, bottom, 0, KEY_CLIP_Y_START, KEY_CLIP_Y_END, false, 100.0f);
 	}
 	if (text != NULL)
 	{
@@ -604,7 +626,7 @@ void KMIcon::Draw(float delta_time)
 	{
 		if (Alpha < 1.0f)
 		{
-			fade = (float)Alpha;
+			fade = Alpha;
 		}
 		else
 		{
@@ -654,7 +676,7 @@ void CameraHelpAccumulator::Draw(char* name, int x, int y)
 	static LHColor red(0xff, 0, 0);
 	static LHColor green(0, 0xff, 0);
 	static LHColor white(0xff, 0xff, 0xff);
-	static char    text[0x80];
+	static char    text[ACCUMULATOR_TEXT_LENGTH];
 	sprintf(text, "%s %6d %0.2f, %0.2f ; %0.2f", name, GetTotal(), GetTimeSinceLastUsed(), GetRate(),
 	        AverageTriggers * 10.0f);
 	LHSys::GetText().Draw(x - LHSys::GetText().StringWidth(text, NULL) - 2, y, text, 1);
@@ -682,7 +704,8 @@ float CameraHelpAccumulator::GetTimeSinceLastUsed()
 	{
 		return 0.0f;
 	}
-	int time = HelpProfile::AccumulatedTime - TriggerTimes[(TriggerTimeHead - 1) & 0x3f];
+	int time =
+		HelpProfile::AccumulatedTime - TriggerTimes[(TriggerTimeHead - 1) & (CAMERA_HELP_TRIGGER_TIME_COUNT - 1)];
 	if (time < 0)
 	{
 		fn_00448F90();
@@ -693,7 +716,7 @@ float CameraHelpAccumulator::GetTimeSinceLastUsed()
 
 void CameraHelpAccumulator::fn_00448F90()
 {
-	for (int i = 0; i < 0x40; i++)
+	for (int i = 0; i < CAMERA_HELP_TRIGGER_TIME_COUNT; i++)
 	{
 		if (TriggerTimes[i] > HelpProfile::AccumulatedTime)
 		{
@@ -708,7 +731,8 @@ float CameraHelpAccumulator::GetRate()
 	{
 		return 0.0f;
 	}
-	int time = HelpProfile::AccumulatedTime - TriggerTimes[(TriggerTimeHead - TriggerTimeCount) & 0x3f];
+	int time = HelpProfile::AccumulatedTime -
+	           TriggerTimes[(TriggerTimeHead - TriggerTimeCount) & (CAMERA_HELP_TRIGGER_TIME_COUNT - 1)];
 	if (time < 0)
 	{
 		fn_00448F90();
@@ -730,8 +754,8 @@ void CameraHelpAccumulator::Trigger()
 	TotalTriggerCount++;
 	TriggeredThisFrame = 1;
 	TriggerTimes[TriggerTimeHead] = HelpProfile::AccumulatedTime;
-	TriggerTimeHead = (TriggerTimeHead + 1) & 0x3f;
-	if (TriggerTimeCount < 0x40)
+	TriggerTimeHead = (TriggerTimeHead + 1) & (CAMERA_HELP_TRIGGER_TIME_COUNT - 1);
+	if (TriggerTimeCount < CAMERA_HELP_TRIGGER_TIME_COUNT)
 	{
 		TriggerTimeCount++;
 	}
@@ -739,12 +763,13 @@ void CameraHelpAccumulator::Trigger()
 
 char* fn_00449080(int reason)
 {
-	return ReasonNames[(reason >> 8) & 3][reason & 7];
+	return ReasonNames[(reason >> 8) & (CAMERA_HELP_REASON_GROUP_COUNT - 1)]
+					  [reason & (CAMERA_HELP_REASON_NAME_COUNT - 1)];
 }
 
 char* fn_004490A0(unsigned long controls)
 {
-	static char text[0x400];
+	static char text[CONTROLS_TEXT_LENGTH];
 	text[0] = '\0';
 	bool32_t any = false;
 	for (int i = 0; i < CAMERA_HELP_CONTROL_COUNT; i++)
@@ -857,7 +882,7 @@ void CameraHelp::fn_004492F0(int x, int y)
 
 void __stdcall camera_editor_callback(unsigned long message, unsigned long param, unsigned long value)
 {
-	static char    markerName[0x100];
+	static char    markerName[MARKER_NAME_LENGTH];
 	static int     markerColour;
 	static bool    markerToggle;
 	static float   fov;

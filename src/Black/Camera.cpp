@@ -21,10 +21,11 @@
 #include "Interface.h"
 #include "LandAlignement.h"
 #include "LandFeature.h"
+#include "MapCellConstants.h"
+#include "Landscape.h"
 #include "Utils.h"
 
-#define FILEPATH             "C:\\dev\\MP\\Black\\Camera.cpp"
-#define MAP_COORDS_TO_METRES (10.0f / 0x10000)
+#define FILEPATH "C:\\dev\\MP\\Black\\Camera.cpp"
 
 enum
 {
@@ -35,7 +36,6 @@ enum
 	MAP_SIZE_IN_CELLS = 512,
 };
 
-const float  MapCellSizeInMetres = 10.0f;
 const float  StartDistance = 120.0f;
 const float  StartPitch = 0.22439948f;
 const float  ViewingDistanceScale = 8.0f;
@@ -45,13 +45,6 @@ const float  MapCentreInMetres = 2560.0f;
 const double MinPointDelta = 0.01;
 const float  CameraClipMapSize = 1536.0f;
 const float  DefaultFov = 1.2217305f;
-
-static inline void ConvertToPoint(LHPoint& point, const MapCoords& coords)
-{
-	point.y = LH3DIsland::GetAltitude(coords) + coords.Altitude();
-	point.x = (float)coords.x * MAP_COORDS_TO_METRES;
-	point.z = (float)coords.z * MAP_COORDS_TO_METRES;
-}
 
 inline void GCamera::GetFocus(LHPoint& focus)
 {
@@ -103,7 +96,7 @@ GCamera::GCamera(MapCoords& coords)
 {
 	field_0x78 = false;
 	TimeDelta = 0.0f;
-	ConvertToPoint(pos, coords);
+	GLandscape::ConvertMapCoordToLandscapePoint(coords, pos);
 	LHPoint origin;
 	SetPointFromPointDistanceHeadingAndPitch(&origin, pos, 70.0f, 3.5343983f, 0.5235988f);
 	CameraOriginZoomer.SetPosition(origin);
@@ -381,7 +374,7 @@ void GCamera::Update()
 	}
 
 	Weather = LH3DAtmos::GetWeatherSmooth(origin, true);
-	GLandAlignement::Dat_00D1A26C = (int8_t)Weather.field_0x3 * 0.01f;
+	GLandAlignement::Dat_00D1A26C = Weather.field_0x3 * 0.01f;
 	UpdateGameThingWithPosData();
 }
 
@@ -430,17 +423,9 @@ void GCamera::fn_00442980(LHPoint* point, const LHPoint& centre, float heading, 
 
 void GCamera::fn_00442A20(LHPoint* point, const LHPoint& centre)
 {
-	float x = point->x - centre.x;
-	float y = point->y - centre.y;
-	float z = point->z - centre.z;
-	if (x != 0.0f || y != 0.0f || z != 0.0f)
-	{
-		float scale = 1.0f / (float)sqrt(x * x + y * y + z * z);
-		x *= scale;
-		y *= scale;
-		z *= scale;
-	}
-	*point = LHPoint(x + centre.x, y + centre.y, z + centre.z);
+	LHPoint offset(point->x - centre.x, point->y - centre.y, point->z - centre.z);
+	offset.FastNormalizeInline();
+	*point = LHPoint(offset.x + centre.x, offset.y + centre.y, offset.z + centre.z);
 }
 
 float GCamera::fn_00442AB0()
@@ -450,12 +435,12 @@ float GCamera::fn_00442AB0()
 
 void GCamera::ClipToCameraRadius(LHPoint* point)
 {
-	float   centre = (MapCellSizeInMetres * MAP_SIZE_IN_CELLS) * 0.5f;
+	float   centre = (MetresPerMapCell * MAP_SIZE_IN_CELLS) * 0.5f;
 	LHPoint offset(point->x - centre, point->y, point->z - centre);
 	if (sqrt(offset.z * offset.z + offset.y * offset.y + offset.x * offset.x) >
-	    MapCellSizeInMetres * CameraClipMapSize * 0.5f)
+	    MetresPerMapCell * CameraClipMapSize * 0.5f)
 	{
-		offset.SetSize(MapCellSizeInMetres * CameraClipMapSize * 0.5f);
+		offset.SetSize(MetresPerMapCell * CameraClipMapSize * 0.5f);
 		*point = LHPoint(offset.x + centre, offset.y, offset.z + centre);
 	}
 }
@@ -519,7 +504,7 @@ void GCamera::fn_00442E10(const LHPoint& focus, int param_2)
 void GCamera::fn_00442E50(const MapCoords& coords, int param_2)
 {
 	LHPoint focus;
-	ConvertToPoint(focus, coords);
+	GLandscape::ConvertMapCoordToLandscapePoint(coords, focus);
 	fn_00442E10(focus, param_2);
 }
 
@@ -657,8 +642,8 @@ void GCamera::SetCameraFov(float fov, float time)
 char* GCamera::GetDebugText()
 {
 	static char text[CAMERA_DEBUG_TEXT_LENGTH];
-	sprintf(text, "Camera Pos(%.2f,%.2f,%.2f), Foc(%.2f,%.2f,%.2f)", Pos.x * MapCellSizeInMetres / 65536.0f,
-	        Pos.altitude, Pos.z * MapCellSizeInMetres / 65536.0f, CameraHeadingZoomer.x.GetCurrentValue(),
+	sprintf(text, "Camera Pos(%.2f,%.2f,%.2f), Foc(%.2f,%.2f,%.2f)", Pos.x * MetresPerMapCell / 65536.0f, Pos.altitude,
+	        Pos.z * MetresPerMapCell / 65536.0f, CameraHeadingZoomer.x.GetCurrentValue(),
 	        CameraHeadingZoomer.y.GetCurrentValue(), CameraHeadingZoomer.z.GetCurrentValue());
 	return text;
 }

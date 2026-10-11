@@ -10,7 +10,7 @@ struct WeatherInfo
 	uint8_t field_0x0;
 	uint8_t field_0x1;
 	uint8_t field_0x2;
-	uint8_t field_0x3;
+	int8_t  field_0x3;
 	int8_t  WindX;
 	int8_t  WindZ;
 	uint8_t field_0x6;
