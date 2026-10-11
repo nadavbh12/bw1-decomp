@@ -1043,8 +1043,8 @@ void CEMarker::fn_00449EB0()
 			                  0.0f, 4096.0f);
 			textY = y - 2000.0f / depth;
 			textX = x;
-			font->DrawTextRaw(CHAR2WCHAR(Name), strlen(Name), textX, textY, z, 16.0f, &LH3DColor(Colour), 1, NULL, 0.0f,
-			                  4096.0f);
+			font->DrawTextRaw(CHAR2WCHAR(Name), strlen(Name), textX, textY, depth, 16.0f, &LH3DColor(Colour), 1, NULL,
+			                  0.0f, 4096.0f);
 		}
 	}
 }

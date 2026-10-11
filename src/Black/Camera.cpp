@@ -437,8 +437,8 @@ void GCamera::ClipToCameraRadius(LHPoint* point)
 {
 	float   centre = (MetresPerMapCell * MAP_SIZE_IN_CELLS) * 0.5f;
 	LHPoint offset(point->x - centre, point->y, point->z - centre);
-	if (sqrt(offset.z * offset.z + offset.y * offset.y + offset.x * offset.x) >
-	    MetresPerMapCell * CameraClipMapSize * 0.5f)
+	float   distance = sqrt(offset.z * offset.z + offset.y * offset.y + offset.x * offset.x);
+	if (distance > MetresPerMapCell * CameraClipMapSize * 0.5f)
 	{
 		offset.SetSize(MetresPerMapCell * CameraClipMapSize * 0.5f);
 		*point = LHPoint(offset.x + centre, offset.y, offset.z + centre);
