@@ -4,6 +4,7 @@
 #include <assert.h> /* For static_assert */
 #include <stdint.h> /* For uint16_t, uint32_t, uint8_t */
 
+#include <Black/Name.h>       /* For struct Name */
 #include <chlasm/AllMeshes.h> /* For MAX_COUNT_3D_ANIMS */
 
 #include "LHPoint.h" /* For struct LHPoint */
@@ -113,7 +114,7 @@ struct LH3DAnimSet
 struct CatInfo
 {
 	int          AnimationCount; /* 0x0 */
-	ANM_Name     AnimationNames[0x18];
+	Name         AnimationNames[0x18];
 	AnimInfoType AnimationType[0x18]; /* 0x304 */
 
 	// Non-virtual methods
@@ -126,7 +127,7 @@ struct AnimInfo
 {
 	uint32_t SpecVersion; /* 0x0 */
 	int      CategoryCount;
-	ANM_Name CategoryNames[0x18];
+	Name     CategoryNames[0x18];
 	CatInfo  categories[0x18]; /* 0x308 */
 
 	// Non-virtual methods
