@@ -33,6 +33,7 @@ struct LHSystem
 
 #include "LHConvert.h" /* For class LHConvert */
 #include "LHJoypad.h"  /* For struct LHJoypads */
+#include "LHMem.h"     /* For class LHMem */
 #include "LHMouse.h"   /* For struct LHMouse */
 #include "LHDraw.h"    /* For struct LHDraw */
 #include "LHScreen.h"  /* For struct LHScreen */
@@ -185,45 +186,51 @@ struct TbIME
 };
 } // namespace slim
 
+struct LHScriptResourceBank : public LHMem
+{
+	LHScriptResource Resources[100];
+};
+static_assert(sizeof(LHScriptResourceBank) == 100 * sizeof(LHScriptResource), "LHScriptResourceBank is the wrong size");
+
 struct LHSys
 {
-	LHSystem         system;   /* 0x0 */
-	LHScreen         screen;   /* 0x10 */
-	LHMouse          mouse;    /* 0x1c4 */
-	LHKeyboard       keyboard; /* 0x32c */
-	CharRing         charRing; /* 0x560 */
-	LHJoypads        joypads;  /* 0x5a8 */
-	LHDraw           draw;     /* 0x82c */
-	LHConvert        convert;  /* 0x834 */
-	LHScriptX_c_     script;   /* 0x8c4 */
-	uint8_t          field_0x8f4[0x30];
-	LHScriptResource ScriptResources[100]; /* 0x924 the front-end script resource bank */
-	LHText           text;                 /* 0x7044 */
-	unsigned int     LastCommand;          /* 0x706c most recent WM_* the app was told about */
-	unsigned int     LastCommandParam;     /* 0x7070 */
-	uint8_t          field_0x7074[0xC];
-	int              LastMouseMsgTime;        /* 0x7080 */
-	unsigned int     QueryCancelAutoPlayMsg;  /* 0x7084 registered "QueryCancelAutoPlay" message */
-	uint8_t          QueryCancelAutoPlayInit; /* 0x7088 bit 0 = message registered */
-	uint8_t          _pad7089[3];
-	HANDLE           AppEvent;            /* 0x708c signalled on WM_MOUSEMOVE, waited on by the mouse thread */
-	HCURSOR          ArrowCursor;         /* 0x7090 */
-	HCURSOR          AppCursor;           /* 0x7094 */
-	TRACKMOUSEEVENT  TrackMouseEventInfo; /* 0x7098 */
-	HACCEL           Accel;               /* 0x70a8 */
-	uint8_t          field_0x70ac[4];
-	HMENU            Menu;         /* 0x70b0 */
-	HWND             Window;       /* 0x70b4 the game's top-level window */
-	uint8_t          field_0x70b8; /* 256-colour failure marker (byte store in LHScreen::ChangeMode) */
-	uint8_t          field_0x70b9;
-	uint8_t          WindowedMode;       /* 0x70ba */
-	uint8_t          AltTabPending;      /* 0x70bb */
-	int              AppMinimized;       /* 0x70bc */
-	int              AppMinimizedByUs;   /* 0x70c0 */
-	slim::TbIME*     TbIME;              /* 0x70c4 */
-	uint8_t          MouseThreadRunning; /* 0x70c8 */
-	uint8_t          TerminateRequested; /* 0x70c9 */
-	uint8_t          _pad70ca[2];
+	LHSystem             system;   /* 0x0 */
+	LHScreen             screen;   /* 0x10 */
+	LHMouse              mouse;    /* 0x1c4 */
+	LHKeyboard           keyboard; /* 0x32c */
+	CharRing             charRing; /* 0x560 */
+	LHJoypads            joypads;  /* 0x5a8 */
+	LHDraw               draw;     /* 0x82c */
+	LHConvert            convert;  /* 0x834 */
+	LHScriptX_c_         script;   /* 0x8c4 */
+	uint8_t              field_0x8f4[0x30];
+	LHScriptResourceBank ScriptResources;  /* 0x924 the front-end script resource bank */
+	LHText               text;             /* 0x7044 */
+	unsigned int         LastCommand;      /* 0x706c most recent WM_* the app was told about */
+	unsigned int         LastCommandParam; /* 0x7070 */
+	uint8_t              field_0x7074[0xC];
+	int                  LastMouseMsgTime;        /* 0x7080 */
+	unsigned int         QueryCancelAutoPlayMsg;  /* 0x7084 registered "QueryCancelAutoPlay" message */
+	uint8_t              QueryCancelAutoPlayInit; /* 0x7088 bit 0 = message registered */
+	uint8_t              _pad7089[3];
+	HANDLE               AppEvent;            /* 0x708c signalled on WM_MOUSEMOVE, waited on by the mouse thread */
+	HCURSOR              ArrowCursor;         /* 0x7090 */
+	HCURSOR              AppCursor;           /* 0x7094 */
+	TRACKMOUSEEVENT      TrackMouseEventInfo; /* 0x7098 */
+	HACCEL               Accel;               /* 0x70a8 */
+	uint8_t              field_0x70ac[4];
+	HMENU                Menu;         /* 0x70b0 */
+	HWND                 Window;       /* 0x70b4 the game's top-level window */
+	uint8_t              field_0x70b8; /* 256-colour failure marker (byte store in LHScreen::ChangeMode) */
+	uint8_t              field_0x70b9;
+	uint8_t              WindowedMode;       /* 0x70ba */
+	uint8_t              AltTabPending;      /* 0x70bb */
+	int                  AppMinimized;       /* 0x70bc */
+	int                  AppMinimizedByUs;   /* 0x70c0 */
+	slim::TbIME*         TbIME;              /* 0x70c4 */
+	uint8_t              MouseThreadRunning; /* 0x70c8 */
+	uint8_t              TerminateRequested; /* 0x70c9 */
+	uint8_t              _pad70ca[2];
 	void(__stdcall* MessageHook)(unsigned long, unsigned long, unsigned long); /* 0x70cc; Mac UserMessageCallback */
 	int     LastKey;                                                           /* 0x70d0 */
 	uint8_t field_0x70d4[4];

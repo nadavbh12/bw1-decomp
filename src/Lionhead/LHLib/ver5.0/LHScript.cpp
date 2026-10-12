@@ -260,12 +260,14 @@ template <class T> LH_RETURN LHScriptX<T>::ProcessCommand(long command, LHScript
 		{
 			if ((unsigned long)pram->number[1] >= 100)
 				return LH_ERROR;
-			result = (LH_RETURN)LHLoadDataToMemory(LHStringOps<T>::makechar(pram->text[0]),
-			                                       &LHSys::TheSystem.ScriptResources[pram->number[1]].data, NULL);
+			result =
+				(LH_RETURN)LHLoadDataToMemory(LHStringOps<T>::makechar(pram->text[0]),
+			                                  &LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].data, NULL);
 			if (result)
 				return result;
-			LHSys::TheSystem.ScriptResources[pram->number[1]].type = 1;
-			strcpy(LHSys::TheSystem.ScriptResources[pram->number[1]].name, LHStringOps<T>::makechar(pram->text[0]));
+			LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].type = 1;
+			strcpy(LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].name,
+			       LHStringOps<T>::makechar(pram->text[0]));
 			return result;
 		}
 		// TODO: the original shares a single "return result" tail and the type=3 +
@@ -278,7 +280,7 @@ template <class T> LH_RETURN LHScriptX<T>::ProcessCommand(long command, LHScript
 				return LH_ERROR;
 			LHSprite* sprite = new (FILEPATH, 312) LHSprite;
 			result = LH_ERROR;
-			LHSys::TheSystem.ScriptResources[pram->number[1]].data = sprite;
+			LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].data = sprite;
 			if (!sprite)
 				return result;
 			result = LHLoadABMP(LHStringOps<T>::makechar(pram->text[0]), sprite, 0);
@@ -287,8 +289,9 @@ template <class T> LH_RETURN LHScriptX<T>::ProcessCommand(long command, LHScript
 				delete sprite;
 				return result;
 			}
-			LHSys::TheSystem.ScriptResources[pram->number[1]].type = 2;
-			strcpy(LHSys::TheSystem.ScriptResources[pram->number[1]].name, LHStringOps<T>::makechar(pram->text[0]));
+			LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].type = 2;
+			strcpy(LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].name,
+			       LHStringOps<T>::makechar(pram->text[0]));
 			return LH_OK;
 		}
 		case 18: // LOAD_SPRITES_DEPTH
@@ -297,7 +300,7 @@ template <class T> LH_RETURN LHScriptX<T>::ProcessCommand(long command, LHScript
 				return LH_ERROR;
 			LHSpriteList* spriteList = new (FILEPATH, 333) LHSpriteList;
 			result = LH_ERROR;
-			LHSys::TheSystem.ScriptResources[pram->number[1]].data = spriteList;
+			LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].data = spriteList;
 			if (!spriteList)
 				return result;
 			if (pram->number[2] != 16 && pram->number[2] != 24)
@@ -312,8 +315,9 @@ template <class T> LH_RETURN LHScriptX<T>::ProcessCommand(long command, LHScript
 				delete spriteList;
 				return result;
 			}
-			LHSys::TheSystem.ScriptResources[pram->number[1]].type = 3;
-			strcpy(LHSys::TheSystem.ScriptResources[pram->number[1]].name, LHStringOps<T>::makechar(pram->text[0]));
+			LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].type = 3;
+			strcpy(LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].name,
+			       LHStringOps<T>::makechar(pram->text[0]));
 			return result;
 		}
 		case 19: // LOAD_SPRITES
@@ -322,7 +326,7 @@ template <class T> LH_RETURN LHScriptX<T>::ProcessCommand(long command, LHScript
 				return LH_ERROR;
 			LHSpriteList* spriteList = new (FILEPATH, 358) LHSpriteList;
 			result = LH_ERROR;
-			LHSys::TheSystem.ScriptResources[pram->number[1]].data = spriteList;
+			LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].data = spriteList;
 			if (!spriteList)
 				return result;
 			result =
@@ -333,8 +337,9 @@ template <class T> LH_RETURN LHScriptX<T>::ProcessCommand(long command, LHScript
 				delete spriteList;
 				return result;
 			}
-			LHSys::TheSystem.ScriptResources[pram->number[1]].type = 3;
-			strcpy(LHSys::TheSystem.ScriptResources[pram->number[1]].name, LHStringOps<T>::makechar(pram->text[0]));
+			LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].type = 3;
+			strcpy(LHSys::TheSystem.ScriptResources.Resources[pram->number[1]].name,
+			       LHStringOps<T>::makechar(pram->text[0]));
 			return result;
 		}
 		case 21: // LOAD_FONT_DEPTH

@@ -676,7 +676,7 @@ void LHMouse::SetAnimateImages(LH_ANIMATE_IMAGE_TYPE imageType, void* images, un
 	{
 		for (uint16_t i = 0; i < FrameCount16; ++i)
 			delete FrameSurfaces[i];
-		LHMem::Free(FrameSurfaces);
+		LHSys::TheSystem.ScriptResources.Free(FrameSurfaces);
 		FrameSurfaces = NULL;
 		FrameCount16 = 0;
 	}
@@ -694,7 +694,7 @@ void LHMouse::SetAnimateImages(LH_ANIMATE_IMAGE_TYPE imageType, void* images, un
 			IsMultiFrame = true;
 			FrameBank = (void*)((uint32_t*)images)[1];
 			FrameCount16 = ((uint16_t*)images)[4];
-			FrameSurfaces = (LHSurface**)LHMem::Alloc(sizeof(LHSurface*) * FrameCount16);
+			FrameSurfaces = (LHSurface**)LHSys::TheSystem.ScriptResources.Alloc(sizeof(LHSurface*) * FrameCount16);
 			for (uint16_t i = 0; i < FrameCount16; ++i)
 				FrameSurfaces[i] = new (FILEPATH, 673) LHSurface((LHSprite*)FrameBank + i, SpriteFlags & 0x60);
 			break;
@@ -703,8 +703,8 @@ void LHMouse::SetAnimateImages(LH_ANIMATE_IMAGE_TYPE imageType, void* images, un
 			IsMultiFrame = false;
 			FrameBank = (void*)(*(uint32_t*)images + 76 * index);
 			FrameCount16 = ((uint32_t*)FrameBank)[2];
-			FramePartOffsets = (LHCoord*)LHMem::Alloc(sizeof(LHCoord) * FrameCount16);
-			FrameSurfaces = (LHSurface**)LHMem::Alloc(sizeof(LHSurface*) * FrameCount16);
+			FramePartOffsets = (LHCoord*)LHSys::TheSystem.ScriptResources.Alloc(sizeof(LHCoord) * FrameCount16);
+			FrameSurfaces = (LHSurface**)LHSys::TheSystem.ScriptResources.Alloc(sizeof(LHSurface*) * FrameCount16);
 			for (uint16_t i = 0; i < FrameCount16; ++i)
 				FrameSurfaces[i] =
 					new (FILEPATH, 685) LHSurface((LHSpriteFrame*)(*(uint32_t*)FrameBank + 16 * i), SpriteFlags & 0x60);
