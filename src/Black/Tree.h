@@ -208,6 +208,8 @@ public:
 
 	// BW1W120 00749f60 BW1M119 01161230
 	void SetToZero();
+	// BW1W120 0074bd20 BW1M119 0115f040
+	void AddPermanentFootPrint();
 };
 
 #endif /* BW1_DECOMP_TREE_INCLUDED_H */

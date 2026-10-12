@@ -122,6 +122,10 @@ public:
 
 	// Static data
 
+	// BW1W120 00c5b0f4
+	static int Global_00c5b0f4;
+	// BW1W120 00c5b100
+	static Zoomer Global_00c5b100;
 	// BW1W120 00c5e150
 	static LightSheet* ForceField;
 	// BW1W120 00c5e144

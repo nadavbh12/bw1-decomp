@@ -32,6 +32,8 @@ struct GLandscape
 	static Object* DrawObjects[3000];
 	// BW1W120 00d20198
 	static int DrawObjectCount;
+	// BW1W120 00d20178
+	static bool32_t Global_00d20178;
 	// Descriptive name; decremented when rebuilding the draw list.
 	// BW1W120 00bf358c
 	static int DrawListRebuildCount;

@@ -58,6 +58,9 @@ public:
 	// BW1W120 005614d0 BW1M119 inlined
 	AnimatedStatic() { SetToZero(); }
 
+	// BW1W120 00422250 BW1M119 010aac50
+	LH3DMesh* GetCurrentPhysicsMesh();
+
 	// BW1W120 00422580 BW1M119 010aa6c0
 	void SetToZero();
 };

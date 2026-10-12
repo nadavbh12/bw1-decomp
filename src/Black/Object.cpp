@@ -104,7 +104,7 @@ struct ObjectCounterPadBetween
 {
 	static int Pad0, Pad1, Pad2, Pad3, Pad4, Pad5, Pad6, Pad7, Pad8, Pad9, Pad10, Pad11, Pad12, Pad13, Pad14, Pad15,
 		Pad16, Pad17, Pad18, Pad19, Pad20, Pad21, Pad22, Pad23, Pad24, Pad25, Pad26, Pad27, Pad28, Pad29, Pad30, Pad31,
-		Pad32, Pad33, Pad34, Pad35, Pad36, Pad37, Pad38, Pad39, Pad40, Pad41, Pad42;
+		Pad32, Pad33, Pad34, Pad35, Pad36, Pad37, Pad38, Pad39;
 };
 
 GObjectInfo GObjectInfo::DefaultAIPlayerObjectInfo;
