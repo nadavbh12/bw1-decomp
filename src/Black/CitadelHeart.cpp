@@ -10,6 +10,9 @@
 #include "LandscapeConstants.h" /* For LandscapeExtent */
 #include "MapCellConstants.h"
 #include "CreatureAttitudeConstants.h"
+#include "PSysProperties.h"
+#include "PlannedCitadelPart.h"
+#include "PlannedTownCitadelHeart.h"
 
 float GCitadelHeartInfo::GetTransferedDamageMultiplier()
 {
@@ -22,7 +25,7 @@ void CitadelHeart::SetToZero()
 	field_0x8c = 0;
 	field_0x98 = 0;
 	field_0x94 = 0;
-	field_0xa0 = 0;
+	SpecularColor = 0;
 	field_0xa4 = -1;
 	field_0xdc = 0;
 	field_0xac = 0;
@@ -50,7 +53,7 @@ uint32_t CitadelHeart::Load(GameOSFile& file)
 	file.ReadIt(field_0x8c);
 	file.ReadPtr(&field_0x94);
 	file.ReadPtr(&field_0x98);
-	file.ReadIt(field_0xa0);
+	file.ReadIt(SpecularColor);
 	file.ReadIt(field_0xa4);
 	file.ReadIt(field_0xb8);
 	file.ReadIt(field_0xbc);
@@ -104,4 +107,66 @@ HELP_TEXT CitadelEntrance::GetQueryLastEnumText()
 void CitadelEntrance::ResolveLoad()
 {
 	info = &GObjectInfo::Definitions[OBJECT_TYPE_TERRAIN];
+}
+
+uint32_t CitadelHeart::GetSaveType()
+{
+	return GAME_THING_TYPE_CITADEL_HEART_1;
+}
+
+uint32_t PlannedCitadelPart::GetSaveType()
+{
+	return GAME_THING_TYPE_PLANNED_CITADEL_PART;
+}
+
+uint32_t PlannedTownCitadelHeart::GetSaveType()
+{
+	return GAME_THING_TYPE_PLANNED_TOWN_CITADEL_HEART;
+}
+
+uint32_t UR_PlasmaInf::GetSaveType()
+{
+	return GAME_THING_TYPE_UR_PLASMA_INF;
+}
+
+bool32_t CitadelHeart::ShouldFootpathsGoRound()
+{
+	return false;
+}
+
+LH3DObject::ObjectType CitadelHeart::Get3DType()
+{
+	return LH3DObject::CITADEL;
+}
+
+SCRIPT_OBJECT_TYPE CitadelHeart::GetScriptObjectType()
+{
+	return SCRIPT_OBJECT_TYPE_CITADEL;
+}
+
+ABODE_TYPE CitadelHeart::GetAbodeType()
+{
+	return ABODE_TYPE_CITADEL;
+}
+
+bool32_t CitadelHeart::IsCitadelHeart()
+{
+	return true;
+}
+
+void CitadelHeart::Draw() {}
+
+bool CitadelHeart::ChecksVerticesVObjects()
+{
+	return false;
+}
+
+uint32_t CitadelHeart::GetPhysicsConstantsType()
+{
+	return 0;
+}
+
+void CitadelHeart::SetSpecularColor(unsigned long color)
+{
+	SpecularColor = color;
 }

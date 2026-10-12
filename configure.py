@@ -162,7 +162,7 @@ if not config.non_matching:
 
 # Tool versions
 config.binutils_tag = "2.42-2"
-config.dtk_tag = "v0.0.30"
+config.dtk_tag = "v0.0.31"
 config.objdiff_tag = "v3.7.2"
 config.sjiswrap_tag = "v1.2.2"
 config.wibo_tag = "1.2.0"
@@ -449,8 +449,11 @@ def LibObject(completed, archive, member, module=None, **options):
 
 # LHMultiplayerR.dll's own C++ was built with C++ exception handling (it carries
 # EH funclets and FuncInfo tables) but without RTTI (no type descriptors at all)
-# and without /G6 (LHSerial only matches without it).
-cflags_multiplayer = [*(f for f in cflags_base if f != "/GR"), "/GX"]
+# and without /G6 (LHSerial only matches without it). Lionhead libraries were
+# built with a _LH_<NAME>_LIB_ define (LH3DLib passes -D _LH_3D_LIB_, see
+# LH3DP3.cpp below); the multiplayer headers use it to hide DLL-only members
+# from the game, whose _$E numbering and RTTI order show it never saw them.
+cflags_multiplayer = [*(f for f in cflags_base if f != "/GR"), "/GX", "/D_LH_MULTIPLAYER_LIB_"]
 
 
 def MultiplayerObject(completed, name, **options):
@@ -564,7 +567,7 @@ config.libs = [
             GameCodeObject(NonMatching, "Black/CameraModeCitadel.cpp"),
             GameCodeObject(NonMatching, "Black/CameraModeCtrInteract.cpp"),
             GameCodeObject(Matching, "Black/CameraModeDance.cpp"),
-            GameCodeObject(NonMatching, "Black/CameraModeFlyAndClick.cpp"),
+            GameCodeObject(MatchingFor("BW1W120"), "Black/CameraModeFlyAndClick.cpp"),
             GameCodeObject(NonMatching, "Black/CameraModeFollow.cpp"),
             GameCodeObject(Matching, "Black/CameraModeFollowHeading.cpp"),
             GameCodeObject(NonMatching, "Black/CameraModeFree.cpp"),
@@ -572,7 +575,7 @@ config.libs = [
             GameCodeObject(NonMatching, "Black/CameraModeNew1.cpp"),
             GameCodeObject(NonMatching, "Black/CameraModeNew2.cpp"),
             GameCodeObject(NonMatching, "Black/CameraModeNew3.cpp"),
-            GameCodeObject(NonMatching, "Black/CameraModePath.cpp"),
+            GameCodeObject(MatchingFor("BW1W120"), "Black/CameraModePath.cpp"),
             GameCodeObject(Matching, "Black/CameraModeScript.cpp"),
             GameCodeObject(NonMatching, "Black/CameraModeTwoObjects.cpp"),
             GameCodeObject(NonMatching, "Black/CarriedObject.cpp"),
@@ -1042,9 +1045,9 @@ config.libs = [
             GameCodeObject(NonMatching, "Black/ScriptCreatureCurse.cpp"),
             GameCodeObject(NonMatching, "Black/ScriptDLL.cpp"),
             GameCodeObject(NonMatching, "Black/ScriptedCamera.cpp"),
-            GameCodeObject(NonMatching, "Black/ScriptFind.cpp"),
+            GameCodeObject(MatchingFor("BW1W120"), "Black/ScriptFind.cpp"),
             GameCodeObject(NonMatching, "Black/ScriptFunctions.cpp"),
-            GameCodeObject(NonMatching, "Black/ScriptFunctionTable.cpp"),
+            GameCodeObject(MatchingFor("BW1W120"), "Black/ScriptFunctionTable.cpp"),
             GameCodeObject(NonMatching, "Black/ScriptGFX.cpp"),
             GameCodeObject(NonMatching, "Black/ScriptHighlight.cpp"),
             GameCodeObject(NonMatching, "Black/ScriptHighlightInfo.cpp"),
@@ -1813,7 +1816,7 @@ config.libs = [
             GameSpyObject(NonMatching, "GameSpy/Peer/peerRooms.c"),
             GameSpyObject(NonMatching, "GameSpy/Peer/peerPing.c"),
             GameSpyObject(NonMatching, "GameSpy/Peer/peerPlayers.c"),
-            GameSpyObject(NonMatching, "GameSpy/qr/gqueryreporting.c"),
+            GameSpyObject(NonMatching, "GameSpy/queryreporting/gqueryreporting.c"),
             GameSpyObject(NonMatching, "GameSpy/Peer/peerGlobalCallbacks.c"),
             GameSpyObject(NonMatching, "GameSpy/Peer/peerMangle.c"),
             GameSpyObject(NonMatching, "GameSpy/CEngine/gserver.c"),
