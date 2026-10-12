@@ -2,7 +2,9 @@
 #define BW1_DECOMP_HAND_STATE_CITADEL_INCLUDED_H
 
 #include <assert.h> /* For static_assert */
-#include <stdint.h> /* For uint32_t, uint8_t */
+#include <stdint.h> /* For uint32_t */
+
+#include <Lionhead/LH3DLib/development/Zoomer.h> /* For struct Zoomer, struct Zoomer3d */
 
 #include "HandState.h" /* For struct HandState */
 
@@ -14,8 +16,10 @@ struct LHMatrix;
 class HandStateCitadel : public HandState
 {
 public:
-	uint32_t field_0x8;
-	uint8_t  field_0xC[0xc4];
+	long     Frame;
+	uint32_t field_0xc;
+	Zoomer3d Direction; /* 0x10 */
+	Zoomer   Distance;  /* 0xa0 */
 
 	// Override methods
 
@@ -29,5 +33,7 @@ public:
 	// BW1W120 005b0bf0 BW1M119 0133fc90
 	HandStateCitadel(CHand* hand);
 };
+
+static_assert(sizeof(HandStateCitadel) == 0xd0, "Data type is of wrong size");
 
 #endif /* BW1_DECOMP_HAND_STATE_CITADEL_INCLUDED_H */

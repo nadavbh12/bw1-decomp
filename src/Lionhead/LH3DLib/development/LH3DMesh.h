@@ -32,6 +32,7 @@ enum LH3D_MESH_FLAGS
 struct LH3DMesh;
 struct LH3DSubMesh;
 struct LH3DTexture;
+struct LHMatrix;
 struct LHPoint;
 
 struct SubmeshName
@@ -74,6 +75,10 @@ struct LH3DMesh
 	static LH3DMeshPack* MeshPack; /* 0x00e9fe34 */
 	// BW1W120 00e9fe28 BW1M119 01215a7c (LHCombined Release)
 	static bool g_hinge_only;
+	// BW1W120 00c37d9c BW1M119 011cfb38 (LHCombined Release)
+	static LHMatrix* g_current_list_matrix;
+	// BW1W120 00e9ce28 BW1M119 01212a40 (LHCombined Release)
+	static LHMatrix g_my_list_matrix[0x100];
 
 	// Static methods
 

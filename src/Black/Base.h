@@ -55,6 +55,11 @@ public:
 	// BW1W120 004369d0 BW1M119 01514e50
 	static void operator delete[](void* ptr, size_t size);
 
+	// Non-virtual methods
+
+	// BW1W120 00436a70 BW1M119 010b9de0
+	uint32_t GetIndexOffset() const;
+
 	// Constructors
 
 	// BW1W120 inlined BW1M119 010a21b0

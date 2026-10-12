@@ -487,6 +487,10 @@ public:
 	void SetPacket(PACKET_TYPE type, unsigned short param_2, unsigned short param_3);
 	// BW1W120 00550dd0 BW1M119 0157b2a0
 	void SetPacket(PACKET_TYPE type);
+	// BW1W120 00550f10
+	void SetPacket(PACKET_TYPE type, unsigned long index, LHPoint* param_3, LHPoint* param_4, float param_5);
+	// BW1W120 005514d0
+	void SetPacket(PACKET_TYPE type, unsigned long index, float value);
 	// BW1W120 00551690 BW1M119 010086d0
 	void SendPacketCompressed(PACKET_TYPE type, SETPACKET_FUNCTION_NUMBER function_number);
 	// BW1W120 00552620 BW1M119 0105fc60

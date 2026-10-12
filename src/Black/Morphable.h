@@ -32,6 +32,9 @@ struct MorphableSoundEffect
 	bool Flag;
 };
 
+// BW1W120 00617140 BW1M119 01112840
+void morphable_error(char* message, char* filename);
+
 class Morphable : public DrawingObject
 {
 public:
@@ -99,6 +102,11 @@ public:
 	virtual uint32_t LoadBinary(char* filename, int param_1) = 0;
 	virtual uint32_t SaveBinary(char* filename) = 0;
 
+	// Constructors
+
+	// BW1W120 inlined BW1M119 inlined
+	Morphable() {}
+
 	// Destructor
 
 	// BW1W120 006171a0 BW1M119 01112650
@@ -119,6 +127,10 @@ public:
 	void SelectMesh(int param_1);
 	// BW1W120 00617ae0 BW1M119 011116d0
 	uint32_t ReadBinary(LHFile* file, AnimInfo* info_1, AnimInfo* info_2);
+	// BW1W120 00617dc0 BW1M119 011115b0
+	void LoadAllAndClose();
+	// BW1W120 00618150 BW1M119 01110fb0
+	void WriteBinary(LHFile* file, long param_2);
 	// BW1W120 00617ee0 BW1M119 01111220
 	void ReadExtraDataBinary(LHFile* param_1, AnimInfo* param_2, AnimInfo* param_3, long param_4);
 	// BW1W120 00618720 BW1M119 01110510
