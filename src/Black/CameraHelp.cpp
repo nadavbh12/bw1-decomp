@@ -621,22 +621,7 @@ void KMIcon::Draw(float delta_time)
 	{
 		Alpha = (EndAlpha - StartAlpha) * (Time / FadeTime) + StartAlpha;
 	}
-	float fade;
-	if (Alpha > 0.0f)
-	{
-		if (Alpha < 1.0f)
-		{
-			fade = Alpha;
-		}
-		else
-		{
-			fade = 1.0f;
-		}
-	}
-	else
-	{
-		fade = 0.0f;
-	}
+	float fade = Alpha > 0.0f ? min(Alpha, 1.0f) : 0.0f;
 	Colour2.a = Colour1.a = (uint8_t)(fade * 255.0f);
 	if (SetupBox::GetCurrentActiveBox() == NULL ||
 	    SetupBox::GetCurrentActiveBox()->BackgroundStyle == SETUP_BACKGROUND_NONE)

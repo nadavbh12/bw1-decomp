@@ -320,7 +320,10 @@ void GCamera::Update()
 	}
 
 	LHPoint destination = CameraOriginZoomer.GetDestination();
-	destination.Set(destination.x - MapCentreInMetres, destination.y, destination.z - MapCentreInMetres);
+	float   dx = destination.x - MapCentreInMetres;
+	float   dy = destination.y;
+	float   dz = destination.z - MapCentreInMetres;
+	destination.Set(dx, dy, dz);
 	if (destination.GetNormeSq() > CameraRadiusSq)
 	{
 		destination *= 1.0f / (destination.GetNorme() * InverseCameraRadius);
