@@ -118,6 +118,7 @@ void ObtainRequiredHandPosition(CHand* hand, float param_2, float param_3, float
 						hand->field_0x49b4 = creature;
 						hand->field_0x49b8 = creature->GetCreature3D();
 					}
+					HandStateHolding::GiveToCreatureTime = HOLDING_GIVE_TO_CREATURE_TIME;
 				}
 			}
 			else
