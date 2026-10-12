@@ -11,6 +11,8 @@
 
 #include "HandState.h" /* For struct HandState */
 
+#define HOLDING_GIVE_TO_CREATURE_TIME 1100
+
 // Forward Declares
 
 class CHand;

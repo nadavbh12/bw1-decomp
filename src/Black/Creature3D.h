@@ -490,6 +490,8 @@ public:
 	bool32_t CanKnockObject(Object* object);
 	// BW1W120 00482c90 BW1M119 011fdf80
 	void SetLookPoint(LHPoint* point);
+	// BW1W120 00c64210
+	static bool32_t AlwaysSetLookPoint;
 	// BW1W120 00482d40 BW1M119 011fdf10
 	bool32_t HasLookPoint();
 	// BW1W120 00482d90 BW1M119 011fdac0
