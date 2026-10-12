@@ -57,6 +57,8 @@ public:
 	static uint32_t PredictionActive;
 	// BW1W120 00d47828 BW1M119 01a202b0
 	static Object* PredictionObject;
+	// BW1W120 00c371fc
+	static float MaxSpeed;
 
 	uint8_t           field_0x8[0x10];
 	Object*           object;

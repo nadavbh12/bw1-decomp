@@ -111,6 +111,14 @@ struct LHMatrix
 		m[2] = sin(angle);
 		m[6] = -m[2];
 	}
+	// BW1W120 inlined BW1M119 inlined
+	void SetRotationX(float angle)
+	{
+		SetIdentity();
+		m[4] = m[8] = cos(angle);
+		m[7] = sin(angle);
+		m[5] = -m[7];
+	}
 	// Inliner IL size: <= 40, always inlined and never charged
 	// BW1W120 inlined BW1M119 01043dd0
 	const LHPoint& GetPos() const { return *(const LHPoint*)&m[9]; }
@@ -269,6 +277,21 @@ struct LHMatrix
 	// functions; the Mac inlines it into ConvertToCameraFacingMatrix with a nested SetMatrixOnly call.
 	// BW1W120 0046d9d0 BW1M119 inlined
 	void __fastcall PostMultiplyMatrixOnly(const LHMatrix& r);
+	// BW1W120 005b5b90 BW1M119 0101ca50
+	void __fastcall SetMatrixOnly(const LHMatrix& r)
+	{
+		m[0] = r.m[0];
+		m[1] = r.m[1];
+		m[2] = r.m[2];
+		m[3] = r.m[3];
+		m[4] = r.m[4];
+		m[5] = r.m[5];
+		m[6] = r.m[6];
+		m[7] = r.m[7];
+		m[8] = r.m[8];
+	}
+	// BW1W120 007fb180 BW1M119 null
+	void __fastcall SetFromVectorAndAngle(const LHPoint& vector, float angle);
 	// BW1W120 007fab30 BW1M119 0100ee90 (LHCombined Release)
 	void GetYXZ(float* y, float* x, float* z) const;
 	// BW1W120 007fb5c0 BW1M119 01022550 (LHCombined Release)

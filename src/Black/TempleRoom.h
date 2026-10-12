@@ -99,6 +99,10 @@ public:
 	static KEYALIGN ToolTipAlign;
 	// BW1W120 00e36138
 	static GatheringText* ScrollFont;
+	// BW1W120 00e360b8
+	static LHPoint HandDirection;
+	// BW1W120 00e360c8
+	static LHPoint HandFocus;
 
 	// Virtual methods
 

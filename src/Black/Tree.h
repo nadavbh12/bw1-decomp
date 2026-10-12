@@ -215,6 +215,9 @@ public:
 
 	// BW1W120 0074a3a0 BW1M119 01160a20
 	float Decay(float amount);
+
+	// BW1W120 0074bd20 BW1M119 0115f040
+	void AddPermanentFootPrint();
 };
 
 #endif /* BW1_DECOMP_TREE_INCLUDED_H */

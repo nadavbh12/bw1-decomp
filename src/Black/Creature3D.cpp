@@ -235,7 +235,7 @@ static LH3DColor     BruiseColours[3];
 static LH3DColor     BloodColours[3];
 static LH3DCreature* SparklingCreature;
 // Never written in this TU; when set, SetLookPoint ignores the INTERACTING guard.
-static bool32_t AlwaysSetLookPoint;
+bool32_t LH3DCreature::AlwaysSetLookPoint;
 // fabricated name. Set when AddFightIntersection(long, MeshIntersect&) records a hit, cleared by
 // ValidateLastFightIntersection and ReceivedFightImpact3d. Interface.cpp and InterfaceAction.cpp write it too, so the
 // original has external linkage.

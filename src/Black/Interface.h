@@ -140,6 +140,10 @@ public:
 	void StartImmersion(IMMERSION_EFFECT_TYPE type, unsigned long param_2);
 	// BW1W120 005d8af0 BW1M119 0136f110
 	void StopAllImmersion();
+	// BW1W120 005d8a80 BW1M119 0136f1a0
+	void StopImmersion(IMMERSION_EFFECT_TYPE type);
+	// BW1W120 005d8610 BW1M119 0136f3c0
+	bool32_t IsImmersionPlaying(IMMERSION_EFFECT_TYPE type);
 	// BW1W120 005d56c0 BW1M119 0107d9c0
 	void SendObjectDrawCollision(Object* object, float distance, LH3DObject* lh3d_object);
 	// BW1W120 005ced10 BW1M119 013629e0

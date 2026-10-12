@@ -19,6 +19,9 @@ enum HAND_STATES
 	_HAND_STATES_COUNT = 0xb
 };
 
+const float HAND_LEAN_RANGE_X = 80.0f;
+const float HAND_LEAN_RANGE_Y = 80.0f;
+
 // Forward Declares
 
 class CHand;
