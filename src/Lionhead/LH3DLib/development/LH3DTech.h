@@ -62,6 +62,8 @@ public:
 	static LHMatrix* g_current_matrix;
 	// BW1W120 00ea1d28 BW1M119 012dc0b4 (LHCombined Release)
 	static LHMatrix g_world_to_camera;
+	// BW1W120 00ea1cf8 BW1M119 012dc084 (LHCombined Release)
+	static LHMatrix g_camera_to_world;
 	// BW1W120 00ea9e90 BW1M119 012d3fa8 (LHCombined Release)
 	static LHPoint g_sun_light;
 	// BW1W120 inlined BW1M119 010e7360
