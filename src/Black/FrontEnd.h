@@ -73,6 +73,8 @@ struct FrontEnd
 	static void Init();
 	// BW1W120 0053c450 BW1M119 015cb4f0
 	static void SetCursorOn();
+	// BW1W120 0053c470 BW1M119 015cb4b0
+	static void SetCursorOff();
 	// BW1W120 00544f90 BW1M119 015c0ab0
 	static void JustDoABox(DialogBoxBase* box);
 	// BW1W120 0053ce70 BW1M119 015caa70

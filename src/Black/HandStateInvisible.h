@@ -25,7 +25,7 @@ public:
 	// Constructors
 
 	// BW1W120 inlined BW1M119 inlined
-	HandStateInvisible(CHand* hand);
+	HandStateInvisible(CHand* hand) : HandState(hand) {}
 };
 
 #endif /* BW1_DECOMP_HAND_STATE_INVISIBLE_INCLUDED_H */

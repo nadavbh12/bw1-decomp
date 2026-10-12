@@ -35,7 +35,7 @@ public:
 	GGuidance*         guidance;
 	uint32_t           field_0x34;
 	uint32_t           field_0x38;
-	uint32_t           field_0x3c;
+	Object*            field_0x3c;
 	uint32_t           field_0x40;
 	LHPoint            ThrowVelocity;
 	LHPoint            ThrowAngularVelocity;
