@@ -95,6 +95,18 @@ add_relocations:
   - source: 0x0046BF0C
     type: x86_abs32
     target: '_HandLagMessages'
+  - source: 0x005B2F22
+    type: x86_rel32
+    target: '?GetHandStateGrain@CHand@@QAEPAVHandStateGrain@@XZ'
+  - source: 0x005B2D82
+    type: x86_rel32
+    target: '?GetHandStateGrain@CHand@@QAEPAVHandStateGrain@@XZ'
+  - source: 0x005B2FC3
+    type: x86_rel32
+    target: '?GetHandStateGrain@CHand@@QAEPAVHandStateGrain@@XZ'
+  - source: 0x005B2F82
+    type: x86_rel32
+    target: '?GetHandStateGrain@CHand@@QAEPAVHandStateGrain@@XZ'
   - source: 0x005FAF31
     type: x86_abs32
     target: '??_C@_0L@CJLH@MagicHand?3?$AA@'
