@@ -85,7 +85,7 @@ void HandStateCreature::Exit()
 void HandStateCreature::Update(float dt, LHMatrix* matrices)
 {
 	LH3DCreature* creature3d = hand->field_0x49b8;
-	float         size = creature3d->GetSize() * 7.5f;
+	float         size = creature3d->GetSize() * 15.0f;
 	float         sizeRatio = (float)pow(creature3d->GetSize(), 0.5);
 	if (creature3d->InHandInteraction == 0)
 	{
@@ -135,7 +135,7 @@ void HandStateCreature::Update(float dt, LHMatrix* matrices)
 	}
 	if (hit && !immersing)
 	{
-		GGame::g_game->MyInterface()->StartImmersion(IMMERSION_EFFECT_TYPE_FUR, INFINITE);
+		GGame::g_game->MyInterface()->StartImmersion(IMMERSION_EFFECT_TYPE_FUR, 0x80000000);
 	}
 	else if (immersing)
 	{
@@ -150,86 +150,85 @@ void HandStateCreature::Update(float dt, LHMatrix* matrices)
 	LHPoint velocity(handPos.x - lastHandPos.x, 0.0f, handPos.z - lastHandPos.z);
 	velocity *= 1.0f / dt;
 	float speed = velocity.GetNorme();
-	float hitSpeed = size * 4.5f;
-	float slapSpeed = size * 2.5f;
+	float hitSpeed = size * 9.0f;
+	float slapSpeed = size * 5.0f;
 	if (speed > slapSpeed && field_0x114 != 33)
 	{
 		field_0x114 = 33;
 		hand->BlendToNewPosition();
 	}
 
-	if ((hit && !field_0x110) || screenSide * lastScreenSide < 0)
+	float height;
+	if (((hit && !field_0x110) || screenSide * lastScreenSide < 0) &&
+	    (height = (hand->position.y - LH3DIsland::GetAltitude(hand->position)) / size) > 0.0f && height < 1.1 &&
+	    field_0xdc > 1000 && speed > slapSpeed)
 	{
-		float height = (hand->position.y - LH3DIsland::GetAltitude(hand->position)) / size;
-		if (height > 0.0f && height < 1.1 && field_0xdc > 1000 && speed > slapSpeed)
+		long action;
+		int  zone;
+		if (height < 0.4)
 		{
-			long action;
-			int  zone;
-			if (height < 0.2)
+			action = 169;
+			zone = 0;
+		}
+		else if (height < 0.7)
+		{
+			action = 167;
+			zone = 1;
+		}
+		else
+		{
+			action = 165;
+			zone = 2;
+		}
+		if (zone != field_0x118)
+		{
+			field_0x118 = zone;
+			field_0x11c = 0;
+		}
+		int strength;
+		if (speed < hitSpeed)
+		{
+			strength = 1;
+		}
+		else
+		{
+			strength = 2;
+			field_0x11c++;
+			if (hit && field_0x11c > 2)
 			{
-				action = 169;
-				zone = 0;
-			}
-			else if (height < 0.7)
-			{
-				action = 167;
-				zone = 1;
-			}
-			else
-			{
-				action = 165;
-				zone = 2;
-			}
-			if (zone != field_0x118)
-			{
-				field_0x118 = zone;
 				field_0x11c = 0;
-			}
-			int strength;
-			if (speed < hitSpeed)
-			{
-				strength = 1;
-			}
-			else
-			{
-				strength = 2;
-				field_0x11c++;
-				if (hit && field_0x11c > 2)
-				{
-					field_0x11c = 0;
-					int force = (long)((speed - hitSpeed) * 2.5f / hitSpeed);
-					force = min(max(force, 0), 7);
-					HandStateCreaturePacket packet;
-					packet.Intersect = intersect;
-					packet.field_0x2c = 7 - force;
-					packet.field_0x28 = 0;
-					GGame::g_game->fn_00551040(PACKET_TYPE_0x63, &packet, sizeof(packet));
-				}
-			}
-			if (!hand->field_0x49b8->IsPerformingBodyAction() || hand->field_0x49b8->GetBodyActionFraction() > 0.8f)
-			{
-				bool32_t mirrored = hand->ScreenPos.x - hand->PreviousScreenPos.x < 0;
-				field_0xcc = 0;
-				field_0xd0 = 1000;
-				action += strength == 1 ? 6 : 0;
-				field_0xe0 = hand->field_0x49b8->ForceIndividualAction(action, mirrored);
-				if (field_0xe0 && GGame::g_game->network.session->Players.count == 1)
-				{
-					hand->field_0x49b8->InitialiseDestructionBones();
-					hand->field_0x49b8->StartDestruction();
-				}
-				GGame::g_game->MyInterface()->StartImmersion(
-					strength == 1 ? IMMERSION_EFFECT_TYPE_SLAP : IMMERSION_EFFECT_TYPE_HIT, INFINITE);
-				unsigned long index = hand->field_0x49b4->GetIndexOffset();
-				GGame::g_game->SetPacket(PACKET_TYPE_0x27, index, action, mirrored, 0);
-				if (HandValue > 0.25)
-				{
-					strength *= 2;
-				}
-				HandValue = max(-1.0f, HandValue - strength * 0.1f);
-				field_0xd4 = 0;
+				int force = (long)((speed - hitSpeed) * 5.0f / hitSpeed);
+				force = min(max(force, 0), 7);
+				HandStateCreaturePacket packet;
+				packet.Intersect = intersect;
+				packet.field_0x2c = 7 - force;
+				packet.field_0x28 = 0;
+				GGame::g_game->fn_00551040(PACKET_TYPE_0x63, &packet, sizeof(packet));
 			}
 		}
+		if (!hand->field_0x49b8->IsPerformingBodyAction() || hand->field_0x49b8->GetBodyActionFraction() > 0.35f)
+		{
+			bool32_t mirrored = hand->ScreenPos.x - hand->PreviousScreenPos.x < 0;
+			field_0xcc = 0;
+			field_0xd0 = 1000;
+			action += strength == 1 ? 6 : 0;
+			field_0xe0 = hand->field_0x49b8->ForceIndividualAction(action, mirrored);
+			if (field_0xe0 && GGame::g_game->network.session->Players.count == 1)
+			{
+				hand->field_0x49b8->InitialiseDestructionBones();
+				hand->field_0x49b8->StartDestruction();
+			}
+			GGame::g_game->MyInterface()->StartImmersion(
+				strength == 1 ? IMMERSION_EFFECT_TYPE_SLAP : IMMERSION_EFFECT_TYPE_HIT, 0x80000000);
+			unsigned long index = hand->field_0x49b4->GetIndexOffset();
+			GGame::g_game->SetPacket(PACKET_TYPE_0x27, index, action, mirrored, 0);
+			if (HandValue > 0.25)
+			{
+				strength *= 2;
+			}
+			HandValue = max(-1.0f, HandValue - strength * 0.1f);
+		}
+		field_0xd4 = 0;
 	}
 	else if (hit)
 	{
@@ -336,7 +335,7 @@ void HandStateCreature::Update(float dt, LHMatrix* matrices)
 
 	LHPoint up = field_0xc.GetCurrentValue();
 	up.FastNormalizeInline();
-	float   angle = hand->Heading + PI_F / 2;
+	float   angle = hand->Heading + PI_F;
 	LHPoint forward(-(float)sin(angle), 0.0f, (float)cos(angle));
 	LHPoint side = up ^ forward;
 	side.Normalise();

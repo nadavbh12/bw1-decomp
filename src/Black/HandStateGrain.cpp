@@ -326,6 +326,7 @@ void HandStateGrain::Update(float dt, LHMatrix* matrices)
 
 		float   speed = HandVelocity.GetValue().GetNorme();
 		LHPoint tilt(0.0f, 0.0f, 0.0f);
+		tilt.x = TurnRate.GetValue();
 		if (field_0x00d13f1c)
 		{
 			tilt.y = -TurnRate.GetValue();

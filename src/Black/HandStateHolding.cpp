@@ -36,16 +36,15 @@ const float HoldingHandMinHeight = 1.9f;
 #include "Packet.h"          /* For enum PACKET_TYPE */
 #include "PhysicsObject.h"   /* For PhysicsObject::PredictionActive */
 
-#define HOLDING_GIVE_TO_CREATURE_TIME  1100
 #define HOLDING_GIVE_TO_CREATURE_DELAY 300
 #define HOLDING_CREATURE_PICK_UP_TIME  500
-#define HOLDING_CREATURE_PICK_UP_REACH 7.5f
+#define HOLDING_CREATURE_PICK_UP_REACH 15.0f
 #define HOLDING_SPRING_STEP_MS         10
 #define HOLDING_SPRING_STEP            0.01f
 #define HOLDING_TILT_TIME              0.4f
 #define HOLDING_HAND_TURN_RANGE        0.3f
 #define HOLDING_OBJECT_SCALE_RANGE     1.2f
-#define HOLDING_VELOCITY_LOOKAHEAD     0.1f
+#define HOLDING_VELOCITY_LOOKAHEAD     0.2f
 #define HOLDING_ROOTED_HEIGHT_SCALE    0.1f
 #define HOLDING_HAND_HEIGHT_SCALE      0.6f
 
@@ -190,7 +189,7 @@ void HandStateHolding::Update(float param_1, LHMatrix* param_2)
 		int     anim;
 		ObtainRequiredHandPosition(hand, param_1, GetTiltForRender(), height, pos, handDirection, anim, false,
 		                           lockedToCreature);
-		CHand::PreviousHandPosition = handDirection;
+		CHand::PreviousHandPosition = pos;
 		OverrideHandPos(&pos);
 		raise = GetRaiseForRender();
 	}
@@ -373,8 +372,8 @@ void HandStateHolding::Update(float param_1, LHMatrix* param_2)
 	switch (hand->field_0x490c)
 	{
 	case HOLDING_STATE_POINT:
-		fraction = min(1.0f, hand->HeldObject->GetHoldRadius() /
-		                         (standardSize * hand->field_0x4834 * HOLDING_OBJECT_SCALE_RANGE));
+		fraction = hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834 * HOLDING_OBJECT_SCALE_RANGE);
+		fraction = min(1.0f, fraction);
 		hand->field_0x4944 = hand->HeldObject->GetHoldLoweringMultiplier() * hand->HeldObject->GetHeight();
 		anim = hand->GetAnim(HOLDING_ANIM_POINT, 0);
 		Global_00d13f20.SetSize(hand->field_0x4944);
@@ -390,7 +389,8 @@ void HandStateHolding::Update(float param_1, LHMatrix* param_2)
 		AnimationTime = anim->Duration >> 1;
 		break;
 	case HOLDING_STATE_GRAB:
-		fraction = min(1.0f, hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834));
+		fraction = hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834);
+		fraction = min(1.0f, fraction);
 		hand->field_0x4944 = hand->HeldObject->GetHoldLoweringMultiplier() * hand->HeldObject->GetHeight();
 		anim = hand->GetAnim(HOLDING_ANIM_HOLD_LARGE, 0);
 		Global_00d13f20.SetSize(hand->field_0x4944);
@@ -401,7 +401,8 @@ void HandStateHolding::Update(float param_1, LHMatrix* param_2)
 	case 5:
 	case 6:
 	case HOLDING_STATE_MULTI_GRAB:
-		fraction = min(1.0f, hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834));
+		fraction = hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834);
+		fraction = min(1.0f, fraction);
 		hand->field_0x4944 = hand->HeldObject->GetHoldLoweringMultiplier() * hand->HeldObject->GetHeight();
 		anim = hand->GetAnim(HOLDING_ANIM_MULTI_PICK_UP, 0);
 		Global_00d13f20.SetSize(hand->field_0x4944);

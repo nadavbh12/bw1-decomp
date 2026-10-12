@@ -113,7 +113,8 @@ void HandStateTug::Update(float dt, LHMatrix* matrices)
 		{
 			hand->field_0x4908 = false;
 		}
-		else if (hand->GetMaxForce() >= pullOut && sqrt(pull.x * pull.x + pull.z * pull.z + pull.y * pull.y) > weight)
+		else if (hand->GetMaxForce() >= pullOut &&
+		         (float)sqrt(pull.x * pull.x + pull.z * pull.z + pull.y * pull.y) > weight)
 		{
 			Tree* tree = dynamic_cast<Tree*>(hand->HeldObject);
 			if (tree != NULL && !(tree->Flags & GAME_THING_WITH_POS_FLAG_IN_PHYSICS))
@@ -176,7 +177,8 @@ void HandStateTug::Update(float dt, LHMatrix* matrices)
 		switch (hand->field_0x490c)
 		{
 		case 1:
-			ratio = min(1.0f, hand->HeldObject->GetHoldRadius() * 1.2f / (standardSize * hand->field_0x4834 * 1.2f));
+			ratio = hand->HeldObject->GetHoldRadius() * 1.2f / (standardSize * hand->field_0x4834 * 1.2f);
+			ratio = min(1.0f, ratio);
 			object = hand->HeldObject;
 			hand->field_0x4944 = hand->HeldObject->GetHeight() * hand->HeldObject->GetHoldLoweringMultiplier();
 			anim = hand->GetAnim(6, 0);
@@ -189,7 +191,8 @@ void HandStateTug::Update(float dt, LHMatrix* matrices)
 			TugPosition = anim->Duration >> 1;
 			break;
 		case 3:
-			ratio = min(1.0f, hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834));
+			ratio = hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834);
+			ratio = min(1.0f, ratio);
 			object = hand->HeldObject;
 			hand->field_0x4944 = hand->HeldObject->GetHeight() * hand->HeldObject->GetHoldLoweringMultiplier();
 			anim = hand->GetAnim(60, 0);
@@ -198,7 +201,8 @@ void HandStateTug::Update(float dt, LHMatrix* matrices)
 		case 5:
 		case 6:
 		case 7:
-			ratio = min(1.0f, hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834));
+			ratio = hand->HeldObject->GetHoldRadius() / (standardSize * hand->field_0x4834);
+			ratio = min(1.0f, ratio);
 			object = hand->HeldObject;
 			hand->field_0x4944 = hand->HeldObject->GetHeight() * hand->HeldObject->GetHoldLoweringMultiplier();
 			anim = hand->GetAnim(9, 0);
