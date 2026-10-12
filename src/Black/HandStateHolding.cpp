@@ -4,4 +4,9 @@
 
 #include "ColourConstants.h" /* For White */
 
-HandStateHolding::HandStateHolding(CHand* hand) : HandState(hand), field_0x8(0), field_0x10(0) {}
+HandStateHolding::HandStateHolding(CHand* hand) : HandState(hand)
+{
+	GiveToCreatureTime = 0;
+	Frame = 0;
+	field_0x10 = 0;
+}

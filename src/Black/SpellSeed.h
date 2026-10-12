@@ -123,6 +123,13 @@ public:
 
 	// BW1W120 00727f20 BW1M119 01535290
 	SpellSeed();
+
+	// Non-virtual methods
+
+	// BW1W120 007285e0
+	PARTICLE_TYPE fn_007285E0() const;
+	// BW1W120 00728620 BW1M119 01534250
+	bool IsDrawAtGraspPos();
 };
 
 #endif /* BW1_DECOMP_SPELL_SEED_INCLUDED_H */

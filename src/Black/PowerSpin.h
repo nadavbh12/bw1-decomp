@@ -4,6 +4,7 @@
 #include <assert.h> /* For static_assert */
 #include <uchar.h>
 #include <Lionhead/LH3DLib/development/LHMatrix.h>
+#include <Lionhead/LH3DLib/development/LH3DColor.h> /* For struct LH3DColor */
 
 #include "DrawingObject.h" /* For struct DrawingObject */
 
@@ -29,9 +30,20 @@ class PowerSpinRunner : public PowerSpin
 {
 public:
 	PowerSpinRunner* Next; // 0x9b4; do not allocate this partial type using sizeof
+	uint32_t         field_0x9b8;
+	bool             field_0x9bc;
+	LHPoint          field_0x9c0;
 	// Descriptive list-head name; destructor unlinks itself.
 	// BW1W120 00d4de74
 	static PowerSpinRunner* First;
+	// BW1W120 inlined BW1M119 inlined
+	void Detach()
+	{
+		field_0x9bc = false;
+		field_0x9b8 = 0;
+	}
+	// BW1W120 0066f730 BW1M119 01127980
+	static PowerSpinRunner* Create(char16_t* text, const LHPoint& pos, const LH3DColor& colour, bool param_4);
 	// BW1W120 0066f890 BW1M119 01127260
 	// Returns this or NULL and may delete itself.
 	virtual PowerSpinRunner* Update(LHMatrix matrix, float time);

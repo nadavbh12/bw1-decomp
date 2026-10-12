@@ -1094,8 +1094,8 @@ void CameraModeNew3::TriconDraw()
 		depth = 1.0f;
 	}
 	CHand* hand = GGame::g_game->MyInterface()->GetRenderHand();
-	int    handX = hand->field_0x486c;
-	int    handY = hand->field_0x4870;
+	int    handX = hand->field_0x486c.x;
+	int    handY = hand->field_0x486c.y;
 	if (Global_00c5b100.GetCurrentValue() <= 0.01f)
 	{
 		x = (x * 3 + handX) / 4;
@@ -3065,8 +3065,8 @@ void CameraModeNew3::Update()
 				}
 				MousePosPrevious = MousePosCurrent;
 				CHand* hand = GGame::g_game->MyInterface()->GetRenderHand();
-				hand->field_0x486c = MousePosCurrent.x;
-				hand->field_0x4870 = MousePosCurrent.y;
+				hand->field_0x486c.x = MousePosCurrent.x;
+				hand->field_0x486c.y = MousePosCurrent.y;
 				hand->field_0x4874 = 1;
 				if (!GGame::g_game->MyInterface()->IsPlayBack(0))
 				{

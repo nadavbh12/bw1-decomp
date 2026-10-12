@@ -11,8 +11,10 @@
 // memory handshake are declared; original enumerator names are unrecovered.
 enum PACKET_TYPE
 {
+	PACKET_TYPE_0x40 = 0x40,
 	PACKET_TYPE_SPEECH = 0x48,
 	PACKET_TYPE_TAUNT = 0x49,
+	PACKET_TYPE_0x59 = 0x59,
 	PACKET_TYPE_0x5f = 0x5f,
 	PACKET_TYPE_0x61 = 0x61,
 	PACKET_TYPE_0x62 = 0x62,

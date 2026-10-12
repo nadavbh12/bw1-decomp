@@ -15,6 +15,15 @@ struct PSysProcessInfo
 	float          field_0x30;
 	uint32_t       field_0x34;
 	uint8_t        field_0x38;
+
+	// Constructors
+
+	// BW1W120 inlined BW1M119 inlined
+	PSysProcessInfo()
+		: InterfacePosition(0.0f, 0.0f, 0.0f), field_0xc(0.0f, 0.0f, 0.0f), CameraForwardUnitVector(0.0f, 0.0f, 0.0f),
+		  HandVelocity(0.0f, 0.0f, 0.0f), field_0x30(1.0f), field_0x34(0), field_0x38(1)
+	{
+	}
 };
 static_assert(sizeof(PSysProcessInfo) == 0x3c, "Data type is of wrong size");
 

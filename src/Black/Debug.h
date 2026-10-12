@@ -51,6 +51,8 @@ struct GDebug
 	void ClearMessages(long category);
 	// BW1W120 00511da0 BW1M119 0102f280
 	void SetMessage(uint16_t category, char* fmt, ...);
+	// BW1W120 00511d80 BW1M119 0106a660
+	void SetMessage(char* fmt, ...);
 };
 
 #endif /* BW1_DECOMP_DEBUG_INCLUDED_H */

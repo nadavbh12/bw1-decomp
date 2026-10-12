@@ -2,7 +2,8 @@
 #define BW1_DECOMP_HAND_STATE_PLAY_ANIM_INCLUDED_H
 
 #include <assert.h> /* For static_assert */
-#include <stdint.h> /* For uint32_t, uint8_t */
+
+#include <Lionhead/LH3DLib/development/LHPoint.h> /* For struct LHPoint */
 
 #include "HandState.h" /* For struct HandState */
 
@@ -14,9 +15,10 @@ struct LHMatrix;
 class HandStatePlayAnim : public HandState
 {
 public:
-	uint8_t  field_0x8[0x10];
-	uint32_t field_0x18;
-	uint32_t field_0x1C;
+	LHPoint Position; /* 0x8 */
+	long    Anim;     /* 0x14 */
+	long    Time;     /* 0x18 */
+	int     field_0x1c;
 
 	// Override methods
 
@@ -30,5 +32,6 @@ public:
 	// BW1W120 005b74f0 BW1M119 01344e30
 	HandStatePlayAnim(CHand* hand);
 };
+static_assert(sizeof(HandStatePlayAnim) == 0x20, "Data type is of wrong size");
 
 #endif /* BW1_DECOMP_HAND_STATE_PLAY_ANIM_INCLUDED_H */

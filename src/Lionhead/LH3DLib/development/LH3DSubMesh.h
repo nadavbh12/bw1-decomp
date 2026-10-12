@@ -12,7 +12,7 @@ struct LHPoint;
 struct LH3DSubMesh
 {
 	uint32_t        flags_; /* 0x0 */
-	uint32_t        NumPrimitives;
+	int             NumPrimitives;
 	LH3DPrimitive** primitives_;
 	int             NumBones;
 	uint8_t*        Bones; /* 0x10 */

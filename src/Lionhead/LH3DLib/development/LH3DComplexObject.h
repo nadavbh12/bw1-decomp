@@ -32,6 +32,11 @@ public:
 	uint32_t           field_0xb8;
 	uint32_t           field_0xbc;
 
+	// Override methods
+
+	// BW1W120 null BW1M119 01072e80 (LHCombined Release)
+	virtual void SetCarriedObject(LH3DObject* object);
+
 	// Constructors
 
 	// BW1W120 inlined BW1M119 inlined
@@ -41,6 +46,8 @@ public:
 
 	// BW1W120 0080c020 BW1M119 0107f450 (LHCombined Release)
 	void CreateDynamicShadow();
+	// BW1W120 00814fd0 BW1M119 01013bf0 (LHCombined Release)
+	void PrepareShadow();
 };
 
 #endif /* BW1_DECOMP_LH3D_COMPLEX_OBJECT_INCLUDED_H */
