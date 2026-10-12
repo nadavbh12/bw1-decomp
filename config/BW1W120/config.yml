@@ -77,6 +77,27 @@ block_relocations:
 
 add_relocations:
 # Hand and input units: references dtk did not relocate.
+  - source: 0x0046D137
+    type: x86_abs32
+    target: '_HandBrightness'
+  - source: 0x0046D166
+    type: x86_abs32
+    target: '_HandBrightness'
+  - source: 0x0046D196
+    type: x86_abs32
+    target: '_HandBrightness'
+  - source: 0x0046E7C3
+    type: x86_rel32
+    target: '?fn_007285E0@SpellSeed@@QBE?AW4PARTICLE_TYPE@@XZ'
+  - source: 0x0046E82F
+    type: x86_rel32
+    target: '?IsDrawAtGraspPos@SpellSeed@@QAE_NXZ'
+  - source: 0x0046BF0C
+    type: x86_abs32
+    target: '_HandLagMessages'
+  - source: 0x005FAF31
+    type: x86_abs32
+    target: '??_C@_0L@CJLH@MagicHand?3?$AA@'
   - source: 0x0063F853
     type: x86_rel32
     target: '?GetActionFromKeys@ControlMap@@QAEHW4LH_KEY@@0@Z'
@@ -86,6 +107,9 @@ add_relocations:
   - source: 0x0063F748
     type: x86_rel32
     target: '?InGameEditor@GInterface@@QBEHXZ'
+  - source: 0x0068E311
+    type: x86_abs32
+    target: '??_C@_0BN@MLLD@C?3?2dev?2MP?2Black?2PSysHandFX?4h?$AA@'
 # LH3DCreature::StateAction's jump table (dtk misses it): one entry per case block.
   - source: 0x0048752C
     type: x86_abs32
