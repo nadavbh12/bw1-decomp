@@ -99,7 +99,7 @@ public:
 	// BW1W120 00ea1d88
 	static LHMatrix Dat_00EA1D88;
 	// BW1W120 00ea9e10
-	static LHMatrix Dat_00EA9E10;
+	static LHMatrix g_local_to_clipping;
 	// BW1W120 00ea9e80 BW1M119 012d3f9c (LHCombined Release)
 	static LHPoint g_sun_light_clipping;
 	// BW1W120 00ea9ebc BW1M119 012d3e6c (LHCombined Release)

@@ -58,7 +58,7 @@ void __fastcall LH3DTech::RenderInitialization(long width, long height)
 	g_world_to_camera.SetIdentity();
 	g_camera_to_world.SetIdentity();
 	Dat_00EA1C98.SetIdentity();
-	Dat_00EA9E10.SetIdentity();
+	g_local_to_clipping.SetIdentity();
 	g_current_matrix = &g_world_to_clipping;
 	SetNearClipping(LH3D_TECH_NEAR_CLIPPING);
 	UpdateViewPort(width, height);
@@ -1149,7 +1149,7 @@ void __fastcall LH3DTech::Draw3DWorldTriangle_(long num_points, LHPoint* positio
                                                long num_triangles, long* indices, int use_world_to_clipping,
                                                LH3DMaterial* material)
 {
-	LHMatrix* matrix = use_world_to_clipping ? &g_world_to_clipping : &Dat_00EA9E10;
+	LHMatrix* matrix = use_world_to_clipping ? &g_world_to_clipping : &g_local_to_clipping;
 	g_current_matrix = matrix;
 	uint16_t       count = num_points;
 	unsigned long* flags = (unsigned long*)LH3DP3::Table0;
@@ -1268,8 +1268,8 @@ void __fastcall LH3DTech::Draw3DWorldTriangle(long num_points, LHPoint* position
 {
 	if (!use_current_matrix)
 	{
-		Dat_00EA9E10 = g_world_to_clipping;
-		g_current_matrix = &Dat_00EA9E10;
+		g_local_to_clipping = g_world_to_clipping;
+		g_current_matrix = &g_local_to_clipping;
 	}
 	LHMatrix*      matrix = g_current_matrix;
 	uint16_t       count = num_points;
@@ -1455,8 +1455,8 @@ void __fastcall LH3DTech::Draw3DWorldTriangleSpecular(long num_points, LHPoint* 
                                                       float* uvs, long num_triangles, long* indices,
                                                       LH3DMaterial* material)
 {
-	Dat_00EA9E10 = g_world_to_clipping;
-	g_current_matrix = &Dat_00EA9E10;
+	g_local_to_clipping = g_world_to_clipping;
+	g_current_matrix = &g_local_to_clipping;
 	uint16_t       count = num_points;
 	unsigned long* flags = (unsigned long*)LH3DP3::Table0;
 	Vertex3D*      vertex = (Vertex3D*)LH3DP3::Table1;
@@ -1624,8 +1624,8 @@ void __fastcall LH3DTech::Draw3DWorldTriangleMT(long num_points, LHPoint* positi
                                                 float* uvs2, long num_triangles, long* indices, LH3DMaterial* material,
                                                 LH3DMaterial* material2)
 {
-	Dat_00EA9E10 = g_world_to_clipping;
-	g_current_matrix = &Dat_00EA9E10;
+	g_local_to_clipping = g_world_to_clipping;
+	g_current_matrix = &g_local_to_clipping;
 	uint16_t       count = num_points;
 	unsigned long* flags = (unsigned long*)LH3DP3::Table0;
 	Vertex3DMT*    vertex = (Vertex3DMT*)LH3DP3::Table1;
