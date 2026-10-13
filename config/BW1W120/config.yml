@@ -584,10 +584,13 @@ add_relocations:
   - source: 0x005BCFE6
     type: x86_abs32
     target: '__real@4@3fff8000000000000000'
-# LH3DRender's own float constants (SetD3DProjectionMatrix's 4/3, OpenD3D's FLT_MAX double).
+# LH3DRender's own float constants (SetD3DProjectionMatrix's 4/3, OpenD3D's FLT_MAX double, StartFrame's far plane).
   - source: 0x0082B333
     type: x86_abs32
     target: 'Dat_009A3984'
+  - source: 0x0082F252
+    type: x86_abs32
+    target: 'Dat_009A3980'
   - source: 0x0082D21E
     type: x86_abs32
     target: 'Dat_009A3988'

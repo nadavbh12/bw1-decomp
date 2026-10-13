@@ -114,8 +114,14 @@ struct LH3DRender
 	static LH3DMaterial* g_current_other_material;
 	// BW1W120 00eca670 BW1M119 012cf808 (LHCombined Release)
 	static bool32_t g_b_use_wireframe;
-	// BW1W120 00eca664
-	static int Dat_00ECA664;
+	// BW1W120 00eca664 BW1M119 012cf814 (LHCombined Release)
+	static int g_motion_blur_value;
+	// BW1W120 00ec7fc0 BW1M119 012cf910 (LHCombined Release)
+	static float g_poly_rate_smooth;
+	// BW1W120 00ec7fc4 BW1M119 012cf914 (LHCombined Release)
+	static float g_poly_rate;
+	// BW1W120 00ec7fc8 BW1M119 012cf918 (LHCombined Release)
+	static int g_num_polys_drawn;
 	// BW1W120 00ec8050 BW1M119 012cf9a0 (LHCombined Release)
 	static D3DMATRIX g_d3d_local2world;
 	// BW1W120 00ec7f10 BW1M119 012cf864 (LHCombined Release)
@@ -259,6 +265,8 @@ struct LH3DRender
 	static void fn_00830000();
 	// BW1W120 0082f0e0 BW1M119 01013360 (LHCombined Release)
 	static void StartFrame();
+	// BW1W120 0082f280 BW1M119 010a0560 (LHCombined Release)
+	static void DrawSortedObjects();
 	// BW1W120 0082ff10 BW1M119 0102b830 (LHCombined Release)
 	static void SetD3DTillingOn(int index);
 	// BW1W120 0082ff50 BW1M119 0102eed0 (LHCombined Release)
@@ -400,13 +408,15 @@ extern int g_b_any_kyro;
 
 // Original free symbol imported by the Mac executable.
 // BW1W120 00ec7f08 BW1M119 012cf860 (LHCombined Release)
-extern uint32_t g_color_background;
+extern LH3DColor g_color_background;
 
 // LH Combined Release Shared 001ccfe0.
 // Original free global, updated by FrameRate(), not a member of LH3DRender.
 // BW1W120 00c386e0 BW1M119 011d0df8 (LHCombined Release)
 extern int g_frame_rate_stats;
 
+// BW1W120 0082b0f0
+void __cdecl fn_0082B0F0();
 // BW1W120 0081e820
 bool32_t __cdecl fn_0081E820();
 // BW1W120 0081e870
