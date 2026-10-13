@@ -18,6 +18,7 @@ struct LHRegion;
 struct LH3DTexture;
 struct LHMatrix;
 struct Vertex3D;
+struct Vertex3DMT;
 class LH3DZSorter;
 
 enum
@@ -156,6 +157,9 @@ struct LH3DRender
 	// BW1W120 0082f810 BW1M119 0102b030 (LHCombined Release)
 	static void __fastcall DrawTriangle(Vertex3D* vertices, unsigned long vertex_count, uint16_t* indices,
 	                                    unsigned long index_count);
+	// BW1W120 0082f920 BW1M119 01015200 (LHCombined Release)
+	static void __fastcall DrawTriangleMT(Vertex3DMT* vertices, unsigned long vertex_count, uint16_t* indices,
+	                                      unsigned long index_count);
 	// BW1W120 00412940 BW1M119 01049520
 	static int SetRenderState(D3DRENDERSTATETYPE type, unsigned long value);
 	// BW1W120 inlined BW1M119 inlined

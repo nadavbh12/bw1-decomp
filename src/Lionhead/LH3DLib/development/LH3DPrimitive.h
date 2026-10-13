@@ -5,6 +5,7 @@
 #include <stdint.h> /* For uint8_t */
 
 #include "LH3DMaterial.h" /* For struct LH3DMaterial */
+#include "LHPlane.h"      /* For struct LHPlane */
 
 // Forward Declares
 
@@ -26,6 +27,10 @@ struct LH3DPrimitive
 
 	// BW1W120 00c39264 BW1M119 011d0d54 (LHCombined Release)
 	static int MIN_LIGHT;
+	// BW1W120 00f03118 BW1M119 012bf340 (LHCombined Release)
+	static LHPlane g_clipping_plane_camera;
+	// BW1W120 00f03128 BW1M119 012bf350 (LHCombined Release)
+	static LHPlane g_clipping_plane_world;
 
 	// Static methods
 
