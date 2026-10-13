@@ -584,6 +584,10 @@ add_relocations:
   - source: 0x005BCFE6
     type: x86_abs32
     target: '__real@4@3fff8000000000000000'
+# LH3DTech: Random's 1/RAND_MAX.
+  - source: 0x0081D190
+    type: x86_abs32
+    target: 'Dat_009A3700'
 # LH3DRender's own float constants (SetD3DProjectionMatrix's 4/3, OpenD3D's FLT_MAX double, StartFrame's far plane).
   - source: 0x0082B333
     type: x86_abs32
