@@ -13,4 +13,7 @@ struct SmokyStuff
 	static SmokyStuff* Create(const LHPoint* pos, long param_2, float param_3, LH3DColor color);
 };
 
+// BW1W120 00824400
+void __cdecl fn_00824400();
+
 #endif /* BW1_DECOMP_SMOKY_STUFF_INCLUDED_H */

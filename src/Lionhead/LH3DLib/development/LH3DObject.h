@@ -253,6 +253,10 @@ public:
 
 	// BW1W120 0080b4d0 BW1M119 0107fb80 (LHCombined Release)
 	static LH3DObject* __fastcall Create(ObjectType object_type);
+	// BW1W120 0080bbd0 BW1M119 0107f910 (LHCombined Release)
+	static bool32_t Open();
+	// BW1W120 0080bd70 BW1M119 0107f750 (LHCombined Release)
+	static bool32_t Close();
 
 	// Constructors
 
@@ -266,5 +270,11 @@ public:
 	// BW1W120 0080bf10 BW1M119 0107f4f0 (LHCombined Release)
 	void __fastcall CombineColorWithCurrent(unsigned long color, unsigned long specular);
 };
+
+// BW1W120 00ea1a88 BW1M119 012b3744 (LHCombined Release)
+extern int caca_static_draw;
+
+// BW1W120 00813770
+void __cdecl fn_00813770();
 
 #endif /* BW1_DECOMP_LH3D_OBJECT_INCLUDED_H */

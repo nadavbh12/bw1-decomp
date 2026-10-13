@@ -24,6 +24,9 @@ struct LH3DPrimitive
 	int              NumBlends;
 	uint8_t*         Blends;
 
+	// BW1W120 00c39264 BW1M119 011d0d54 (LHCombined Release)
+	static int MIN_LIGHT;
+
 	// Static methods
 
 	// BW1W120 0084ab50 BW1M119 0109e410 (LHCombined Release)
@@ -34,5 +37,8 @@ struct LH3DPrimitive
 	// BW1W120 00807f30 BW1M119 01068ba0 (LHCombined Release)
 	void ComputeBoundingBox(LHPoint& maxima, LHPoint& minima, int& initialized);
 };
+
+// BW1W120 0085bf00
+void __cdecl fn_0085BF00();
 
 #endif /* BW1_DECOMP_LH3D_PRIMITIVE_INCLUDED_H */

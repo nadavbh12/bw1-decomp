@@ -9,6 +9,10 @@ class LH3DLine
 public:
 	// Static methods
 
+	// BW1W120 00839860 BW1M119 010607e0 (LHCombined Release)
+	static void Open();
+	// BW1W120 00839880 BW1M119 01060780 (LHCombined Release)
+	static void Close();
 	// BW1W120 008398a0 BW1M119 01060720 (LHCombined Release)
 	static void AddLine(const LHPoint& from, const LHPoint& to, LH3DColor* from_color, LH3DColor* to_color);
 	// BW1W120 008398b0 BW1M119 0100a5c0 (LHCombined Release)
