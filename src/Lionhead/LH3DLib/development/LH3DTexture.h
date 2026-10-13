@@ -18,12 +18,22 @@ enum LH3D_TEXTURE_TYPE
 
 struct LH3DVRAMTex;
 
+// BW1W120 00edd450 BW1M119 013404e0 (LHCombined Release)
+extern int g_b_voodoo2;
+// BW1W120 00edd44c BW1M119 013404e4 (LHCombined Release)
+extern int g_b_banshee;
+
 struct LH3DTexture
 {
 	// BW1W120 00edd470
 	static int g_b_use_low_res;
 	// BW1W120 00edd460 BW1M119 013404d0 (LHCombined Release)
 	static LH3DTexture* g_first;
+
+	// BW1W120 008378c0 BW1M119 010c9ac0 (LHCombined Release)
+	static bool32_t Open();
+	// BW1W120 00837930 BW1M119 010c9990 (LHCombined Release)
+	static bool32_t Close();
 
 	uint32_t      field_0x0;
 	LH3DVRAMTex*  VRAMTex;
@@ -56,6 +66,8 @@ struct LH3DTexture
 	void Release();
 	// BW1W120 00838430 BW1M119 010c8e30 (LHCombined Release)
 	void YouLostYourVRAM();
+	// BW1W120 00837df0 BW1M119 0102df60 (LHCombined Release)
+	void Activate(int stage);
 	// BW1W120 inlined BW1M119 010107b0 (LHCombined Release)
 	uint32_t GetType() { return Flags & 0x3f; }
 };

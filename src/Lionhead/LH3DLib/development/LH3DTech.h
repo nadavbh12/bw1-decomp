@@ -116,7 +116,7 @@ public:
 	// BW1W120 00819920 BW1M119 01034f90 (LHCombined Release)
 	static void UpdateCamera(const LHPoint& position, const LHPoint& focus);
 	// BW1W120 00818c60 BW1M119 010bffa0 (LHCombined Release)
-	static void RenderInitialization(long width, long height);
+	static void __fastcall RenderInitialization(long width, long height);
 	// BW1W120 0081c5c0 BW1M119 010337e0 (LHCombined Release)
 	static void __fastcall Draw3DScreenTriangle(long num_points, LHPoint* positions, LH3DColor* colors, float* uvs,
 	                                            long num_indices, long* indices, LH3DMaterial* material, int param_8);
@@ -131,6 +131,9 @@ public:
 	// BW1W120 0081b5f0 BW1M119 010be620 (LHCombined Release)
 	static void __fastcall TransformProject(Vertex3D* out, LHPoint* points, long count);
 };
+
+// BW1W120 00ea9e9c BW1M119 012dc174 (LHCombined Release)
+extern int g_b_any_voodoo;
 
 // BW1W120 0081bbd0 BW1M119 010bd5b0 (LHCombined Release)
 void __cdecl Report3D__FPCce(const char* fmt, ...);

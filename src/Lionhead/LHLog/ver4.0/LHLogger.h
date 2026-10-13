@@ -16,11 +16,15 @@ struct LHErrorCode
 class LH_LOG_API LHLogger
 {
 public:
-	static void          LogS(char* library, char* file, unsigned long line, char* format, ...);
+	static void LogS(char* library, char* file, unsigned long line, char* format, ...);
+	static int  LogErrorCodeS(char* library, char* file, unsigned long line, LHErrorCode* errors, unsigned long code,
+	                          ...);
 	static unsigned long GetCode();
 	static char*         GetText();
 	static char*         GetFileName(char* path);
 };
+
+extern LH_LOG_API LHErrorCode LH_DX_Errors[];
 
 LH_LOG_API unsigned long _lhbeginthread(char* name, void(__cdecl* proc)(void*), unsigned int stack_size, void* argument,
                                         long priority);
