@@ -77,6 +77,10 @@ public:
 	// Original Mac symbol: g_game_time_inc__8LH3DTech.
 	// BW1W120 00ea9ec0 BW1M119 012d3e68 (LHCombined Release)
 	static uint32_t g_game_time_inc;
+	// BW1W120 00ea9eac BW1M119 012d3e7c (LHCombined Release)
+	static int g_previous_time;
+	// BW1W120 00ea9eb0 BW1M119 012d3e78 (LHCombined Release)
+	static int g_current_time;
 	// BW1W120 00819030 BW1M119 010bfe40 (LHCombined Release)
 	static void UpdateViewPort(long width, long height);
 	// BW1W120 00819390 BW1M119 01037930 (LHCombined Release)

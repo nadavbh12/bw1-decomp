@@ -1,12 +1,14 @@
 #include "LH3DRender.h"
 
 #include <d3d.h>
+#include <float.h>  /* For FLT_MAX */
 #include <math.h>   /* For tan */
 #include <string.h> /* For memset */
 
 #include <Lionhead/LHLib/ver5.0/LHTimer.inl>
 
 #include "LH3DAnim.h" /* For LH3DAnim::AnimPack */
+#include "LH3DCameraChecker.h"
 #include "LH3DColor.h"
 #include "LH3DMaterial.h"
 #include "LH3DLandscape.h" /* For LH3DLandscape */
@@ -24,17 +26,20 @@
 #include "LH3DVB.h"        /* For LH3DVB */
 #include "LH3DWater.h"     /* For LH3DWater */
 #include "LowResTexture.h" /* For LowResTexture */
+#include "SmokyStuff.h"
 #include "LHRegion.h"
 #include "Black/LH3DZSorter.h"              /* For LH3DZSorter */
+#include "Lionhead/LHLib/ver5.0/LHScreen.h" /* For LHResetFPU */
 #include "Lionhead/LHLib/ver5.0/LHSystem.h" /* For LHSys */
 #include "Lionhead/LHLog/ver4.0/LHLogger.h" /* For LHLogger */
 
 #define FILEPATH "C:\\DEV\\Libs\\LIONHEAD\\LH3DLIB\\DEVELOPMENT\\LH3DRender.cpp"
 
-#define LH3D_RENDER_DEFAULT_FOV      1.2217305f
-#define LH3D_RENDER_ASPECT_RATIO     (4.0f / 3.0f)
-#define LH3D_RENDER_FAR_PLANE        5000.0f
-#define LH3D_RENDER_MATERIAL_AMBIENT 0.1953125f
+#define LH3D_RENDER_DEFAULT_FOV         1.2217305f
+#define LH3D_RENDER_ASPECT_RATIO        (4.0f / 3.0f)
+#define LH3D_RENDER_FAR_PLANE           5000.0f
+#define LH3D_RENDER_MATERIAL_AMBIENT    0.1953125f
+#define LH3D_RENDER_POLY_RATE_SMOOTHING 0.8f
 
 // TODO: Reconcile the original Render data split before source linkage.
 int  g_frame_rate_stats = 5;
@@ -76,6 +81,12 @@ int g_b_any_kyro;
 enum
 {
 	LH3D_RENDER_CLEAN_SCREEN_DELAY = 2000,
+	LH3D_RENDER_MILLISECONDS_PER_SECOND = 1000,
+	LH3D_RENDER_FRAME_RATE_PERIOD = 3000,
+	LH3D_RENDER_FRAME_RATE_MIN_FRAMES = 4,
+	LH3D_RENDER_FRAME_RATE_MIN = 5,
+	LH3D_RENDER_FPU_CONTROL_MASK = 0xd00,
+	LH3D_RENDER_FPU_PRECISION_53 = 0x200,
 	LH3D_RENDER_RECTANGLE_VERTEX_COUNT = 4,
 	LH3D_RENDER_RECTANGLE_INDEX_COUNT = 6,
 };
@@ -101,6 +112,33 @@ enum LH3D_RENDER_MODE
 	LH3D_RENDER_MODE_CHROMA_JUST_Z = 18,
 	LH3D_RENDER_MODE_NONE = 20,
 };
+
+static const float Dat_009A3980 = FLT_MAX;
+
+void fn_0082B0F0()
+{
+	static int s_last_time = LH3DTech::g_timer.MSeconds();
+	int        time = LH3DTech::g_timer.MSeconds();
+	int        elapsed = time - s_last_time;
+	if (elapsed >= LH3D_RENDER_FRAME_RATE_PERIOD)
+	{
+		int        frame = LH3DRender::g_frame;
+		static int s_last_frame = frame;
+		int        frames = frame - s_last_frame;
+		if (frames >= LH3D_RENDER_FRAME_RATE_MIN_FRAMES)
+		{
+			int rate = frames * LH3D_RENDER_MILLISECONDS_PER_SECOND / elapsed;
+			if (rate >= LH3D_RENDER_FRAME_RATE_MIN)
+			{
+				g_frame_rate_stats = rate;
+				s_last_time = time;
+				s_last_frame = frame;
+			}
+		}
+	}
+}
+
+LH3DColor g_color_background(0, 0, 0);
 
 void LH3DRender::SetD3DMatrix(D3DMATRIX& d3d_matrix, LHMatrix& matrix)
 {
@@ -228,7 +266,7 @@ bool32_t LH3DRender::Open()
 	fn_0081E820();
 	fn_00880F20(0, 0xc);
 	fn_007AC9E0();
-	Dat_00ECA664 = 0;
+	g_motion_blur_value = 0;
 	g_b_need_anim_uv = false;
 	fn_0081FAA0();
 	Report3D__FPCce(g_b_zbuffer_16b ? "using z buffer for sun before check\n"
@@ -1220,10 +1258,10 @@ void LH3DRender::CleanScreen()
 	case 0:
 		return;
 	case 1:
-		Direct3DDevice7->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, g_color_background, 1.0f, 0);
+		Direct3DDevice7->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, g_color_background.GetColor(), 1.0f, 0);
 		return;
 	case 2:
-		Direct3DDevice7->Clear(0, NULL, D3DCLEAR_ZBUFFER, g_color_background, 1.0f, 0);
+		Direct3DDevice7->Clear(0, NULL, D3DCLEAR_ZBUFFER, g_color_background.GetColor(), 1.0f, 0);
 		return;
 	}
 }
@@ -1267,6 +1305,76 @@ void __fastcall LH3DRender::DrawRectangle(LHRegion& region, unsigned long color)
 	if (material)
 	{
 		delete material;
+	}
+}
+
+void LH3DRender::StartFrame()
+{
+	fn_0082B0F0();
+	fn_00824400();
+	g_curmode2tex = 0;
+	g_curmat2tex = NULL;
+	Dat_00EC81C0 = true;
+	LH3DVB::newframe = true;
+	LH3DVB::newframemt = true;
+	LH3DVB::curv = 0;
+	LH3DVB::curvmt = 0;
+	g_b_sorted_object_drawn_this_frame = false;
+
+	uint16_t controlWord;
+	uint16_t newControlWord;
+	__asm
+		{
+		finit
+		fwait
+		fstcw controlWord
+		fwait
+		mov ax, controlWord
+		and eax, not LH3D_RENDER_FPU_CONTROL_MASK
+		or eax, LH3D_RENDER_FPU_PRECISION_53
+		mov newControlWord, ax
+		fldcw newControlWord
+		fwait
+	    }
+
+	caca_static_draw = 0;
+	LH3DTech::g_current_time = LH3DTech::g_timer.MSeconds();
+	LH3DTech::g_delta_time = LH3DTech::g_current_time - LH3DTech::g_previous_time;
+	if (LH3DTech::g_delta_time <= 0)
+	{
+		LH3DTech::g_delta_time = 1;
+	}
+	LH3DTech::g_previous_time = LH3DTech::g_current_time;
+	g_poly_rate = g_num_polys_drawn * (float)LH3D_RENDER_MILLISECONDS_PER_SECOND / LH3DTech::g_delta_time;
+	g_num_polys_drawn = 0;
+	g_poly_rate_smooth = (g_poly_rate - g_poly_rate_smooth) * LH3D_RENDER_POLY_RATE_SMOOTHING + g_poly_rate_smooth;
+	Direct3DDevice7->BeginScene();
+	g_frame++;
+	g_started_frame = true;
+	g_zsorter->OpenSort();
+	fn_00813770();
+	fn_0085BF00();
+	g_d3d_light.dvPosition.x = LH3DTech::g_sun_light.x;
+	g_d3d_light.dvPosition.y = LH3DTech::g_sun_light.y;
+	g_d3d_light.dvPosition.z = LH3DTech::g_sun_light.z;
+	if (!g_b_disable_TNL && g_b_support_TNL)
+	{
+		Direct3DDevice7->SetLight(0, &g_d3d_light);
+		SetD3DProjectionMatrix(g_d3d_view2proj, LH3DTech::g_info_transform.NearClip, Dat_009A3980,
+		                       LH3DTech::g_camera.fov);
+	}
+	LH3DCameraChecker::Process();
+	LHResetFPU();
+}
+
+void LH3DRender::DrawSortedObjects()
+{
+	g_b_sorted_object_drawn_this_frame = true;
+	LH3DLine::DrawAllPreStored();
+	for (LH3DZSorter::ZObject* object = LH3DZSorter::Dat_00EE9D38; object != NULL; object = object->Next)
+	{
+		LH3DZSorter::UserData = object->Flags;
+		(((DrawingObject*)object->Object)->*object->Draw)();
 	}
 }
 
@@ -1323,7 +1431,7 @@ void LH3DRender::fn_0082F7F0() {}
 
 void __fastcall LH3DRender::SetBackgroundColor(LH3DColor* color)
 {
-	g_color_background = *(uint32_t*)color;
+	g_color_background = *color;
 }
 
 uint16_t* __fastcall LH3DRender::SortTriangle(Vertex3D* vertices, unsigned long vertex_count, uint16_t* indices,
@@ -1468,4 +1576,3 @@ float                           LH3DRender::g_adv;
 LH3DMaterial*                   LH3DRender::g_current_other_material;
 bool32_t                        LH3DRender::g_b_use_wireframe;
 int                             LH3DMaterial::g_count;
-uint32_t                        g_color_background;

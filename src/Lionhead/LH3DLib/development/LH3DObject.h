@@ -271,4 +271,10 @@ public:
 	void __fastcall CombineColorWithCurrent(unsigned long color, unsigned long specular);
 };
 
+// BW1W120 00ea1a88 BW1M119 012b3744 (LHCombined Release)
+extern int caca_static_draw;
+
+// BW1W120 00813770
+void __cdecl fn_00813770();
+
 #endif /* BW1_DECOMP_LH3D_OBJECT_INCLUDED_H */

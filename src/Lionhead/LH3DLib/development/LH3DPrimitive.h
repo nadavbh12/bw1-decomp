@@ -38,4 +38,7 @@ struct LH3DPrimitive
 	void ComputeBoundingBox(LHPoint& maxima, LHPoint& minima, int& initialized);
 };
 
+// BW1W120 0085bf00
+void __cdecl fn_0085BF00();
+
 #endif /* BW1_DECOMP_LH3D_PRIMITIVE_INCLUDED_H */
