@@ -43249,7 +43249,7 @@ _?$S103@?7??UpdateWorldToCamera@LH3DTech@@SIXAAULHMatrix@@AAULHPoint@@1_N@Z@4EA 
 ?g_current_time@LH3DTech@@2HA = .data:0x00EA9EB0; // type:object size:0x4 scope:global
 ?g_b_P3@LH3DTech@@2HA = .data:0x00EA9EB4; // type:object size:0x4 scope:global
 ?g_NoBackfaceCull@@3HA = .data:0x00EA9EB8; // type:object size:0x4 scope:global
-?g_view_configuration@LH3DTech@@2HA = .data:0x00EA9EBC; // type:object size:0x4 scope:global
+?Dat_00EA9EBC@LH3DTech@@2HA = .data:0x00EA9EBC; // type:object size:0x4 scope:global
 ?g_game_time_inc@LH3DTech@@2IA = .data:0x00EA9EC0; // type:object size:0x4 scope:global
 ?g_material_smooth@@3PAULH3DMaterial@@A = .data:0x00EA9EC4; // type:object size:0x4 scope:global
 ?g_b_grosse_merde@@3HA = .data:0x00EA9EC8; // type:object size:0x4 scope:global

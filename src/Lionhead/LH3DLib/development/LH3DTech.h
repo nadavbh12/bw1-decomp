@@ -103,7 +103,7 @@ public:
 	// BW1W120 00ea9e80 BW1M119 012d3f9c (LHCombined Release)
 	static LHPoint g_sun_light_clipping;
 	// BW1W120 00ea9ebc BW1M119 012d3e6c (LHCombined Release)
-	static int g_view_configuration;
+	static int Dat_00EA9EBC;
 	// BW1W120 00ea9e90 BW1M119 012d3fa8 (LHCombined Release)
 	static LHPoint g_sun_light;
 	// BW1W120 inlined BW1M119 010e7360

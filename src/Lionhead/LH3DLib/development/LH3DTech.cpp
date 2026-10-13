@@ -328,11 +328,11 @@ void __fastcall LH3DTech::UpdateCamera(const LHPoint& position, const LHPoint& f
 
 	if (g_camera.pos.z < g_camera.foc.z)
 	{
-		g_view_configuration = g_camera.pos.x < g_camera.foc.x ? LH3D_VIEW_CONFIGURATION_0 : LH3D_VIEW_CONFIGURATION_1;
+		Dat_00EA9EBC = g_camera.pos.x < g_camera.foc.x ? LH3D_VIEW_CONFIGURATION_0 : LH3D_VIEW_CONFIGURATION_1;
 	}
 	else
 	{
-		g_view_configuration = g_camera.pos.x > g_camera.foc.x ? LH3D_VIEW_CONFIGURATION_2 : LH3D_VIEW_CONFIGURATION_3;
+		Dat_00EA9EBC = g_camera.pos.x > g_camera.foc.x ? LH3D_VIEW_CONFIGURATION_2 : LH3D_VIEW_CONFIGURATION_3;
 	}
 
 	LHPoint normal = LH3DPrimitive::g_clipping_plane_world.Normal;
@@ -443,11 +443,11 @@ void __fastcall LH3DTech::UpdateCamera(const LHPoint& position, const LHPoint& f
 
 	if (g_camera.pos.z < g_camera.foc.z)
 	{
-		g_view_configuration = g_camera.pos.x < g_camera.foc.x ? LH3D_VIEW_CONFIGURATION_0 : LH3D_VIEW_CONFIGURATION_1;
+		Dat_00EA9EBC = g_camera.pos.x < g_camera.foc.x ? LH3D_VIEW_CONFIGURATION_0 : LH3D_VIEW_CONFIGURATION_1;
 	}
 	else
 	{
-		g_view_configuration = g_camera.pos.x > g_camera.foc.x ? LH3D_VIEW_CONFIGURATION_2 : LH3D_VIEW_CONFIGURATION_3;
+		Dat_00EA9EBC = g_camera.pos.x > g_camera.foc.x ? LH3D_VIEW_CONFIGURATION_2 : LH3D_VIEW_CONFIGURATION_3;
 	}
 
 	LHPoint normal = LH3DPrimitive::g_clipping_plane_world.Normal;
