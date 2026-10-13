@@ -253,6 +253,10 @@ public:
 
 	// BW1W120 0080b4d0 BW1M119 0107fb80 (LHCombined Release)
 	static LH3DObject* __fastcall Create(ObjectType object_type);
+	// BW1W120 0080bbd0 BW1M119 0107f910 (LHCombined Release)
+	static bool32_t Open();
+	// BW1W120 0080bd70 BW1M119 0107f750 (LHCombined Release)
+	static bool32_t Close();
 
 	// Constructors
 

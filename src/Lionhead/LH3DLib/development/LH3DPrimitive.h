@@ -24,6 +24,9 @@ struct LH3DPrimitive
 	int              NumBlends;
 	uint8_t*         Blends;
 
+	// BW1W120 00c39264 BW1M119 011d0d54 (LHCombined Release)
+	static int MIN_LIGHT;
+
 	// Static methods
 
 	// BW1W120 0084ab50 BW1M119 0109e410 (LHCombined Release)

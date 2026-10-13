@@ -224,6 +224,8 @@ struct LH3DAnim
 	static void UnFinishTransform(LHMatrix* bones, LH3DMesh* mesh, LHMatrix& transform);
 	// BW1W120 0083aa30 BW1M119 01128810 (LHCombined Release)
 	static void CreatePack();
+	// BW1W120 inlined BW1M119 inlined
+	static void Inline_0082B5D0();
 
 	// Non-virtual methods
 
@@ -231,6 +233,8 @@ struct LH3DAnim
 	int GetListPtrFrames();
 	// BW1W120 0083add0 BW1M119 01033790 (LHCombined Release)
 	int GetIndexInCache();
+	// BW1W120 00839970 BW1M119 011281e0 (LHCombined Release)
+	void Release();
 	// BW1W120 inlined BW1M119 01018c60
 	uint32_t IsCyclic() const { return Flags & LH3D_ANIM_FLAG_CYCLIC; }
 };
