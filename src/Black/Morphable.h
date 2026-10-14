@@ -145,6 +145,8 @@ public:
 	long AdvanceSimple(long anim, long time, long delta);
 	// BW1W120 00618c40 BW1M119 0107bcd0
 	void UpdateMorphing();
+	// BW1W120 00618d10 BW1M119 01110080
+	void MorphVertices();
 	// BW1W120 00619650 BW1M119 01086c40
 	CAnim* GetAnim(long anim_index, long param_3);
 	// BW1W120 00619690 BW1M119 01086830
