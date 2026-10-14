@@ -125,6 +125,8 @@ public:
 	uint32_t AddHairGroup();
 	// BW1W120 00617620 BW1M119 01112090
 	void SelectMesh(int param_1);
+	// BW1W120 006178c0 BW1M119 01111e80
+	void AddSoundEvent(float param_1, int param_2, int param_3, bool param_4);
 	// BW1W120 00617ae0 BW1M119 011116d0
 	uint32_t ReadBinary(LHFile* file, AnimInfo* info_1, AnimInfo* info_2);
 	// BW1W120 00617dc0 BW1M119 011115b0

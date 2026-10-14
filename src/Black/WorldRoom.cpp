@@ -103,7 +103,7 @@ static uint32_t UnusedStatic = 0;
 // whose name hashes into its original .bss slot, ahead of OneOnLogHalf.
 struct WorldRoomCounterPad
 {
-	static int Pad0, Pad1, Pad2, Pad3;
+	static int Pad0, Pad1, Pad2;
 };
 
 #define LIGHTEN_MARKER_COLOUR(colour)                                                                                  \

@@ -620,6 +620,43 @@ add_relocations:
   - source: 0x005BCFE6
     type: x86_abs32
     target: '__real@4@3fff8000000000000000'
+# LH3DTech: Random's 1/RAND_MAX.
+  - source: 0x0081D190
+    type: x86_abs32
+    target: 'Dat_009A3700'
+# LH3DRender's own float constants (SetD3DProjectionMatrix's 4/3, OpenD3D's FLT_MAX double, StartFrame's far plane).
+  - source: 0x0082B333
+    type: x86_abs32
+    target: 'Dat_009A3984'
+  - source: 0x0082F252
+    type: x86_abs32
+    target: 'Dat_009A3980'
+  - source: 0x0082D21E
+    type: x86_abs32
+    target: 'Dat_009A3988'
+# LH3DRender: g_texture_stage_state[1][D3DTSS_ADDRESS] in PopTillingMode, SetD3DTillingOn/Off.
+  - source: 0x0082FEE3
+    type: x86_abs32
+    target: '?g_texture_stage_state@LH3DRender@@2PAY0BAA@IA'
+    addend: 0x30
+  - source: 0x0082FF1C
+    type: x86_abs32
+    target: '?g_texture_stage_state@LH3DRender@@2PAY0BAA@IA'
+    addend: 0x30
+  - source: 0x0082FF5C
+    type: x86_abs32
+    target: '?g_texture_stage_state@LH3DRender@@2PAY0BAA@IA'
+    addend: 0x30
+# CMP ESI is the end of LH3DRender::g_stateblock2tex in Close2TexStuff, not g_stateblockstyle.
+  - source: 0x0082C675
+    type: x86_abs32
+    target: '?g_stateblock2tex@LH3DRender@@2PAUStateBlock2Tex@1@A'
+    addend: 0x40
+# CMP ESI is the end of g_original_render_states in ResetAllState, not g_mp_rs_zc.
+  - source: 0x0082C9A3
+    type: x86_abs32
+    target: '?g_original_render_states@@3PAIA'
+    addend: 0x400
 
 timestamp: "2002-06-18T06:13:22+00:00"
 force_size: 0x00843000
