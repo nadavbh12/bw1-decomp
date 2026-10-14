@@ -21,7 +21,7 @@ class GLeashStatus : public GameThing
 public:
 	uint32_t          field_0x14;
 	uint32_t          field_0x18;
-	uint32_t          field_0x1c;
+	uint32_t          LeashType;
 	uint32_t          field_0x20;
 	Object*           ObjectAttachedTo;
 	uint32_t          field_0x28;
