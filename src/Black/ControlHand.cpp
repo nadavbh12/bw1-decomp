@@ -147,7 +147,7 @@ CHand::CHand(LHPoint point, GInterfaceStatus* status) : HandFx(PSysHandFX::Creat
 void HandStateInvisible::Enter()
 {
 	hand->fn_0046C2E0(false);
-	memcpy(hand->Matrix0x49ac, hand->TransformedMatrices, hand->field_0x47b8 * sizeof(LHMatrix));
+	memcpy(hand->Matrix0x49ac, hand->TransformedMatrices, hand->NumTransformedMatrices * sizeof(LHMatrix));
 }
 
 void HandStateInvisible::Exit()
@@ -283,12 +283,12 @@ void CHand::Show(bool32_t param_1)
 	}
 	if (!field_0x49a0)
 	{
-		LHSys::TheSystem.mouse.SetCursor(NULL, LH_MOUSE_IMAGE_TYPE_0x01, 0);
+		LHSys::TheSystem.mouse.SetCursor(NULL, LH_MOUSE_IMAGE_TYPE_HIDDEN, 0);
 		FrontEnd::SetCursorOff();
 	}
 	else
 	{
-		LHSys::TheSystem.mouse.SetCursor(MouseSprite, LH_MOUSE_IMAGE_TYPE_0x08, 1);
+		LHSys::TheSystem.mouse.SetCursor(MouseSprite, LH_MOUSE_IMAGE_TYPE_SURFACE, 1);
 	}
 	field_0x483c = 0;
 }
@@ -459,7 +459,7 @@ void CHand::PrepareForDrawing()
 		if (field_0x49b0 < DefaultBlend)
 		{
 			float  blend = field_0x49b0 / DefaultBlend;
-			int    count = field_0x47b8 * sizeof(LHMatrix) / sizeof(float);
+			int    count = NumTransformedMatrices * sizeof(LHMatrix) / sizeof(float);
 			float* to = TransformedMatrices->m;
 			float* from = Matrix0x49ac->m;
 			for (int i = 0; i < count; i++)
@@ -531,7 +531,7 @@ void CHand::OperateInteractionCamera(long hand_state)
 		GGlobal::Global.debug.SetMessage("PreInteractionTimer: %d", PreInteractionTimer);
 		if (PreInteractionTimer < MaxPreInteractionTime && field_0x49b4->GetPlayer() == GGame::g_game->MyPlayer())
 		{
-			GGame::g_game->SetPacket(PACKET_TYPE_0x5f);
+			GGame::g_game->SetPacket(PACKET_TYPE_LEASH_UNLEASH_CREATURE);
 		}
 	}
 }
@@ -778,7 +778,7 @@ uint32_t CHand::LoadBinary(char* filename, int param_1)
 	{
 		delete Matrix0x49ac;
 	}
-	Matrix0x49ac = new (FILEPATH, 1185) LHMatrix[field_0x47b8];
+	Matrix0x49ac = new (FILEPATH, 1185) LHMatrix[NumTransformedMatrices];
 	ReadRegistrySettings();
 	return true;
 }

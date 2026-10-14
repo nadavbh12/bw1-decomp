@@ -19,16 +19,16 @@ struct LHSprite;
 // What LHSurface::Image points at.
 enum LH_SURFACE_IMAGE_TYPE
 {
-	LH_SURFACE_IMAGE_TYPE_0x0 = 0x0, /* Image is an LHSpriteFrame* (multi-part) */
-	LH_SURFACE_IMAGE_TYPE_0x1 = 0x1, /* Image is an LHSprite* (single) */
+	LH_SURFACE_IMAGE_TYPE_SPRITE_FRAME = 0x0, /* Image is an LHSpriteFrame* (multi-part) */
+	LH_SURFACE_IMAGE_TYPE_SPRITE = 0x1,       /* Image is an LHSprite* (single) */
 	_LH_SURFACE_IMAGE_TYPE_COUNT = 0x2
 };
 
 // Blt direction used by CopySurface.
 enum LH_COPY_DIRECTION
 {
-	LH_COPY_DIRECTION_0x0 = 0x0, /* other surface -> this surface */
-	LH_COPY_DIRECTION_0x1 = 0x1, /* this surface -> other surface */
+	LH_COPY_DIRECTION_FROM_SURFACE = 0x0,
+	LH_COPY_DIRECTION_TO_SURFACE = 0x1,
 	_LH_COPY_DIRECTION_COUNT = 0x2
 };
 

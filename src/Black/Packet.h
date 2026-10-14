@@ -7,8 +7,6 @@
 #include "GestureSystemPacketData.h"
 #include "MusicMood.h"
 
-// Original enum types from Mac symbols. Only the values needed by the turn
-// memory handshake are declared; original enumerator names are unrecovered.
 enum PACKET_TYPE
 {
 	PACKET_TYPE_0x40 = 0x40,
@@ -17,11 +15,11 @@ enum PACKET_TYPE
 	PACKET_TYPE_TAUNT = 0x49,
 	PACKET_TYPE_0x52 = 0x52,
 	PACKET_TYPE_0x59 = 0x59,
-	PACKET_TYPE_0x5f = 0x5f,
-	PACKET_TYPE_0x61 = 0x61,
-	PACKET_TYPE_0x62 = 0x62,
+	PACKET_TYPE_LEASH_UNLEASH_CREATURE = 0x5f,
+	PACKET_TYPE_SAVE_GAME = 0x61,
+	PACKET_TYPE_LOAD_GAME = 0x62,
 	PACKET_TYPE_0x63 = 0x63,
-	PACKET_TYPE_0x65 = 0x65
+	PACKET_TYPE_CHANGE_LEASH = 0x65
 };
 
 enum SETPACKET_FUNCTION_NUMBER
