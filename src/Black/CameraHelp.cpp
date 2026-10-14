@@ -220,7 +220,7 @@ void CameraHelp::DrawMouse(CH_CLICKTYPE click_type, CH_MOUSETYPE mouse_type, CH_
 	LH3DRender::Inline_0082EF67(MouseMaterial);
 	LH3DRender::SetRenderState(D3DRENDERSTATE_ZFUNC, D3DCMP_ALWAYS);
 	LH3DRender::SetRenderState(D3DRENDERSTATE_ZWRITEENABLE, FALSE);
-	DrawAndClip2D(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, LH3DRender::g_quad_vertices,
+	DrawAndClip2D(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (Vertex3D*)LH3DRender::g_quad_vertices,
 	              ARRAY_SIZE(LH3DRender::g_quad_vertices), LH3DRender::g_quad_indices,
 	              ARRAY_SIZE(LH3DRender::g_quad_indices));
 	LH3DRender::SetRenderState(D3DRENDERSTATE_ZFUNC, D3DCMP_LESSEQUAL);
