@@ -8,7 +8,7 @@
 
 #include <Lionhead/LH3DLib/development/LHColor.h>
 
-#include "LHMem.h"
+#include "LHSystem.h"
 #include "LHScreen.h"
 
 struct LHRegion;
@@ -111,11 +111,17 @@ struct LHSurface
 	// Static methods
 
 	// BW1W120 inlined BW1M119 null
-	static void* operator new(size_t size, const char* file_name, int line) { return LHMem::Alloc(size); }
+	static void* operator new(size_t size, const char* file_name, int line)
+	{
+		return LHSys::TheSystem.ScriptResources.Alloc(size);
+	}
 	// BW1W120 007e5320 BW1M119 null
-	static void operator delete(void* block, const char* file_name, int line) { LHMem::Free(block); }
+	static void operator delete(void* block, const char* file_name, int line)
+	{
+		LHSys::TheSystem.ScriptResources.Free(block);
+	}
 	// BW1W120 inlined BW1M119 null
-	static void operator delete(void* block) { LHMem::Free(block); }
+	static void operator delete(void* block) { LHSys::TheSystem.ScriptResources.Free(block); }
 
 	// BW1W120 007e6960 BW1M119 0115c9b0 (LHCombined Release)
 	static int RestoreAll(int recreate);
